@@ -1,0 +1,5 @@
+pool.url = jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+pool.user = root
+pool.password = admin
+pool.driver = com.mysql.jdbc.Driver
+pool.maxConnection = 100
