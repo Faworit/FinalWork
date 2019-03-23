@@ -3,6 +3,7 @@ body {
     height: 100%;
     background-image: url("img/fon.jpg");
     background-attachment: fixed;
+    background-size: cover;
     margin: 0;
 }
 
