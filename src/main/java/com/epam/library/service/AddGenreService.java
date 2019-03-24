@@ -30,11 +30,11 @@ public class AddGenreService implements Service {
         boolean isExistsNameENG = GenreValidator.checkGenre(genreNameENG, idEnglishLanguage);
         if(isExistsNameRU){
             request.setAttribute("errorNameRU", "Genre with that name exists");
-            dispatcher = request.getRequestDispatcher("jsp/addGenre.jsp");
+            dispatcher = request.getRequestDispatcher("addGenre.jsp");
             dispatcher.forward(request, response);
         } else if(isExistsNameENG){
             request.setAttribute("errorNameENG", "Genre with that name exists");
-            dispatcher = request.getRequestDispatcher("jsp/addGenre.jsp");
+            dispatcher = request.getRequestDispatcher("addGenre.jsp");
             dispatcher.forward(request, response);
         } else {
             genreDAO.addGenre(idGenre, idEnglishLanguage, genreNameENG);

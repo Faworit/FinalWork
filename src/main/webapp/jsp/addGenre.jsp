@@ -44,15 +44,18 @@
         <tr>
             <td><fmt:message key="key.genreNameRU"/>*</td>
             <td><input type="text" name="genreNameRU" required></td>
-            <td>${errorNameRU}</td>
+            <td><h4>${errorNameRU}</h4></td>
         </tr>
         <tr>
             <td><fmt:message key="key.genreNameEN"/>*</td>
             <td><input type="text" name="genreNameENG" required></td>
-            <td>${errorNameENG}</td>
+            <td><h4>${errorNameENG}</h4></td>
+        </tr>
+        <tr>
+            <td><input type="submit" class="button" value="<fmt:message key="button.addGenre"/>"></td>
         </tr>
     </table>
-    <input type="submit" class="button" value="<fmt:message key="button.addGenre"/>">
+
 </form>
 </body>
 </html>
