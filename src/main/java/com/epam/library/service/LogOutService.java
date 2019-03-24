@@ -13,7 +13,6 @@ public class LogOutService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
         request.getSession().invalidate();
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
-        requestDispatcher.forward(request, response);
+        response.sendRedirect("/authorization.jsp");
     }
 }

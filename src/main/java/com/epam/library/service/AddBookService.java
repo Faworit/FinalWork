@@ -37,8 +37,8 @@ public class AddBookService implements Service {
         List<String> genres = parseGenreRequest(genre);
         isAvailableBook = BookValidator.checkBook(ISBN);
         if(isAvailableBook){
-            request.setAttribute("already exists", "This book is already exists");
-            dispatcher = request.getRequestDispatcher("jsp/addBook.jsp");
+            request.setAttribute("alreadyExists", "This book is already exists");
+            dispatcher = request.getRequestDispatcher("addBook.jsp");
             dispatcher.forward(request, response);
         } else{
             bookDAO.addBook(idBook, 1, ISBN, quantity, titleRU);
@@ -49,7 +49,7 @@ public class AddBookService implements Service {
                 bookDAO.setIntoBook2Author(idBook, idAuthors.get(i));
             }
             request.setAttribute("information", "new book added successfully");
-            dispatcher = request.getRequestDispatcher("jsp/information.jsp");
+            dispatcher = request.getRequestDispatcher("information.jsp");
             dispatcher.forward(request, response);
         }
     }

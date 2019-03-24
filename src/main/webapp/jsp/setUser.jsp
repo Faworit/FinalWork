@@ -50,7 +50,7 @@
             <td><input type="password" name="password" maxlength="6" required></td>
             <td><fmt:message key="key.repeatPassword"/></td>
             <td><input type="password" name="repeatPassword" maxlength="6" required></td>
-            <td>${notEqual}</td>
+            <td><h4>${notEqual}</h4></td>
         </tr>
         <tr>
             <td><fmt:message key="key.name"/>*</td>
@@ -61,10 +61,9 @@
             <td><input type="text" name="surname" required></td>
         </tr>
         <tr>
-            <td><fmt:message key="key.mail"/>*
-                ${notCorrectMail}
-            </td>
+            <td><fmt:message key="key.mail"/>*</td>
             <td><input type="text" name="mail" required></td>
+            <td><h4>${notCorrectMail}</h4></td>
         </tr>
         <tr>
             <td><fmt:message key="key.phone"/>*</td>
@@ -94,7 +93,7 @@
         <tr>
             <td>
                 <input type="submit" class="button" value="<fmt:message key="button.addUser"/>">
-                <br> ${loginExists}
+                <br> <h4>${loginExists}</h4>
             </td>
         </tr>
     </table>

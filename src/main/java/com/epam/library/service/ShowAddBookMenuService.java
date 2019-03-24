@@ -6,7 +6,6 @@ import com.epam.library.dataBase.LanguageDAO;
 import com.epam.library.entity.Author;
 import com.epam.library.entity.Genre;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +17,6 @@ public class ShowAddBookMenuService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher;
         int idLanguage;
         List<Genre> genres;
         List<Author> authors;
@@ -31,7 +29,6 @@ public class ShowAddBookMenuService implements Service {
         authors = authorDAO.getAllAuthors();
         session.setAttribute("list", genres);
         session.setAttribute("listAuthors", authors);
-        dispatcher = request.getRequestDispatcher("jsp/addBook.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect("/jsp/addBook.jsp");
     }
 }

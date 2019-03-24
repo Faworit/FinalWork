@@ -5,8 +5,6 @@ import com.epam.library.dataBase.BookDAO;
 import com.epam.library.dataBase.GenreDAO;
 import com.epam.library.dataBase.LanguageDAO;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,10 +14,8 @@ import java.util.List;
 
 public class EditBookService implements Service {
 
-    RequestDispatcher dispatcher;
-
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int idBook = Integer.parseInt(request.getParameter("ID"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         int idAuthor = Integer.parseInt(request.getParameter("idAuthor"));
@@ -45,8 +41,7 @@ public class EditBookService implements Service {
             genreDAO.setEditGenre(idGenreConvert.get(i), idLanguage, genres[i]);
         }
 
-        dispatcher = request.getRequestDispatcher("jsp/information.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect("/jsp/user.jsp");
     }
 
     private List<Integer> convertFromString(String[] idGenres){

@@ -31,20 +31,15 @@
             <input type="submit" class="button" name="language" value="RU">
             <input type="submit" class="button" name="language" value="ENG" >
         </form>
-
-        <form action="/showAddBookMenu" method="get">
-            <input type="hidden" name="jspname" value="jsp/creatingBook.jsp" />
-            <p></p>
-        </form>
     </div>
 </div>
 <div class="menu1">
     <form action="forward" method="get">
-        <input type="hidden" name="direction" value="jsp/addGenre.jsp">
+        <input type="hidden" name="direction" value="addGenre.jsp">
         <input type="submit" class="button" value="<fmt:message key="button.addGenre"/>">
     </form>
     <form action="forward" method="get">
-        <input type="hidden" name="direction" value="jsp/addAuthor.jsp">
+        <input type="hidden" name="direction" value="addAuthor.jsp">
         <input type="submit" class="button" value="<fmt:message key="button.addAuthor"/>">
     </form>
     <form action="logOut" method="get">
@@ -123,6 +118,7 @@
             <td>
                 <input type="submit" class="button" value="<fmt:message key="button.addBook"/>">
             </td>
+            <td><h4>${alreadyExists}</h4></td>
         </tr>
     </table>
 </form>

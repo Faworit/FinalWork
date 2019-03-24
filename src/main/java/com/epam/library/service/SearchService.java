@@ -4,7 +4,6 @@ import com.epam.library.dataBase.BookDAO;
 import com.epam.library.dataBase.LanguageDAO;
 import com.epam.library.entity.Book;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,6 @@ import java.util.List;
 
 public class SearchService implements Service {
 
-    RequestDispatcher dispatcher;
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idLanguage;
@@ -35,8 +33,7 @@ public class SearchService implements Service {
         requestDB = createRequest(countWordsSearch);
         books = bookDAO.searchBook(argumentsLike, requestDB, idLanguage);
         session.setAttribute("list", books);
-        dispatcher = request.getRequestDispatcher("jsp/user.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect("jsp/user.jsp");
     }
 
     private List<String> createArgumentLike(String requestSearch){

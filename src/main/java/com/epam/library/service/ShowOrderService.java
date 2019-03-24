@@ -4,8 +4,6 @@ import com.epam.library.dataBase.LanguageDAO;
 import com.epam.library.dataBase.OrderDAO;
 import com.epam.library.entity.Order;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,10 +12,8 @@ import java.util.List;
 
 public class ShowOrderService implements Service {
 
-    RequestDispatcher dispatcher;
-
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int idLanguage;
         int idUser;
         String role;
@@ -31,16 +27,12 @@ public class ShowOrderService implements Service {
         if(role.equals("reader")){
             bookings = orderDAO.getPersonalOrders(idLanguage, idUser);
             session.setAttribute("list", bookings);
-            dispatcher = request.getRequestDispatcher("jsp/orders.jsp");
-            dispatcher.forward(request, response);
+            response.sendRedirect("orders.jsp");
         }
         if(role.equals("librarian")){
             bookings = orderDAO.getAllOrders(idLanguage);
             session.setAttribute("list", bookings);
-            dispatcher = request.getRequestDispatcher("jsp/orders.jsp");
-            dispatcher.forward(request, response);
+            response.sendRedirect("orders.jsp");
         }
-
-
     }
 }

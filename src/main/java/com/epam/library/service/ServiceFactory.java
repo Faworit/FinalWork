@@ -10,25 +10,25 @@ public class ServiceFactory {
 
     static{
         MAP_OF_SERVICE.put("/LogIn", new LogInService());
-        MAP_OF_SERVICE.put("/addAuthor", new AddAuthorService());
-        MAP_OF_SERVICE.put("/addGenre", new AddGenreService());
-        MAP_OF_SERVICE.put("/createUser", new AddUserService());
-        MAP_OF_SERVICE.put("/createBook", new AddBookService());
-        MAP_OF_SERVICE.put("/confirm", new ConfirmReceiptService());
-        MAP_OF_SERVICE.put("/editBook", new EditBookService());
-        MAP_OF_SERVICE.put("/editBooking", new EditBookingService());
-        MAP_OF_SERVICE.put("/editBookMenu", new ShowEditBookMenuService());
-        MAP_OF_SERVICE.put("/forward", new ForwardService());
-        MAP_OF_SERVICE.put("/logOut", new LogOutService());
-        MAP_OF_SERVICE.put("/makeOrder", new AddOrderService());
-        MAP_OF_SERVICE.put("/perform", new PerformOrderService());
-        MAP_OF_SERVICE.put("/onlyNew", new ShowBookingByStatusService());
-        MAP_OF_SERVICE.put("/editByID", new RemoveBookService());
-        MAP_OF_SERVICE.put("/removeBook", new RemoveBookService());
+        MAP_OF_SERVICE.put("/jsp/addAuthor", new AddAuthorService());
+        MAP_OF_SERVICE.put("/jsp/addGenre", new AddGenreService());
+        MAP_OF_SERVICE.put("/jsp/createUser", new AddUserService());
+        MAP_OF_SERVICE.put("/jsp/createBook", new AddBookService());
+        MAP_OF_SERVICE.put("/jsp/confirm", new ConfirmReceiptService());
+        MAP_OF_SERVICE.put("/jsp/editBook", new EditBookService());
+        MAP_OF_SERVICE.put("/jsp/editBooking", new EditBookingService());
+        MAP_OF_SERVICE.put("/jsp/editBookMenu", new ShowEditBookMenuService());
+        MAP_OF_SERVICE.put("/jsp/forward", new ForwardService());
+        MAP_OF_SERVICE.put("/jsp/logOut", new LogOutService());
+        MAP_OF_SERVICE.put("/jsp/makeOrder", new AddOrderService());
+        MAP_OF_SERVICE.put("/jsp/perform", new PerformOrderService());
+        MAP_OF_SERVICE.put("/jsp/onlyNew", new ShowBookingByStatusService());
+        MAP_OF_SERVICE.put("/jsp/editByID", new RemoveBookService());
+        MAP_OF_SERVICE.put("/jsp/removeBook", new RemoveBookService());
         MAP_OF_SERVICE.put("/search", new SearchService());
-        MAP_OF_SERVICE.put("/showAddBookMenu", new ShowAddBookMenuService());
+        MAP_OF_SERVICE.put("/jsp/showAddBookMenu", new ShowAddBookMenuService());
         MAP_OF_SERVICE.put("/showBook", new ShowBookService());
-        MAP_OF_SERVICE.put("/showOrder", new ShowOrderService());
+        MAP_OF_SERVICE.put("/jsp/showOrder", new ShowOrderService());
     }
 
     public static ServiceFactory getInstance(){

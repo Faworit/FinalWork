@@ -31,7 +31,7 @@ public class ShowBookingByStatusService implements Service {
         idStatus = statusDAO.getStatusID(status);
         bookings = orderDAO.getNewOrders(idLanguage, idStatus);
         session.setAttribute("list", bookings);
-        dispatcher = request.getRequestDispatcher("jsp/orders.jsp");
+        dispatcher = request.getRequestDispatcher("orders.jsp");
         dispatcher.forward(request, response);
     }
 }

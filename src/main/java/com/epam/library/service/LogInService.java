@@ -49,8 +49,7 @@ public class LogInService implements Service {
                 session.setAttribute("password", password);
                 ShowBookService showBookService = new ShowBookService();
                 showBookService.execute(request, response);
-                dispatcher = request.getRequestDispatcher("jsp/user.jsp");
-                dispatcher.forward(request, response);
+
             } else{
                  request.setAttribute("notCorrect", "Sorry your accaunt was block");
                  dispatcher = request.getRequestDispatcher("/authorization.jsp");

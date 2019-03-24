@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class CheckUserDAO {
 
-    public static final String CHECK_USER_BY_MAIL_ID = "SELECT ID_USER, MAIL FROM USER WHERE ID_USER=?";
+    public static final String CHECK_USER_BY_MAIL_ID = "SELECT ID_USER, MAIL FROM USER WHERE MAIL=?";
     private static final Logger log = Logger.getLogger("UserDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;

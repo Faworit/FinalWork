@@ -36,23 +36,23 @@ public class AddUserService implements Service {
         boolean isCorrectMail;
         boolean isUser;
         isCorrectMail = AuthorizationValidator.validateMailRegex(mail);
+        isUser = checkUserDAO.checkUser(mail);
         if(!RepeatPasswordValidator.isEqualPasswords(password, repeatPassword)){
             request.setAttribute("notEqual", "passwords not equals");
-        }
-        if(!isCorrectMail){
-            request.setAttribute("notCorrectMail", "not correct format of mail");
-            dispatcher = request.getRequestDispatcher("jsp/setUser.jsp");
+            dispatcher = request.getRequestDispatcher("setUser.jsp");
             dispatcher.forward(request, response);
-        }
-        isUser = checkUserDAO.checkUser(mail);
-        if(isUser){
-            request.setAttribute("loginExists", "user with this login or ID exists");
-            dispatcher = request.getRequestDispatcher("jsp/setUser.jsp");
+        } else if(!isCorrectMail){
+            request.setAttribute("notCorrectMail", "not correct format of mail");
+            dispatcher = request.getRequestDispatcher("setUser.jsp");
+            dispatcher.forward(request, response);
+        } else if(isUser){
+            request.setAttribute("loginExists", "user with this login is exists");
+            dispatcher = request.getRequestDispatcher("setUser.jsp");
             dispatcher.forward(request, response);
         } else{
             createUserDAO.setUser(password, name, surname,  mail, telephone, birthday, block, role);
             request.setAttribute("information", "new User created successfully");
-            dispatcher = request.getRequestDispatcher("jsp/information.jsp");
+            dispatcher = request.getRequestDispatcher("information.jsp");
             dispatcher.forward(request, response);
         }
     }

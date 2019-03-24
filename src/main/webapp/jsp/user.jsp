@@ -25,7 +25,7 @@
        <h1 align="center">${surname} ${name} </h1>
     </div>
     <div class="search">
-        <form action="search" method="get">
+        <form action="/search" method="get">
             <input type="search" name="search" maxlength="50" placeholder="<fmt:message key="key.search"/>">
             <input type="submit" class="button" value="<fmt:message key="key.search"/>">
         </form>
@@ -41,7 +41,7 @@
 <div class="menu1">
     <c:if test="${role eq 'librarian'}">
         <form action="forward" method="get">
-            <input type="hidden" name="direction" value="jsp/setUser.jsp" />
+            <input type="hidden" name="direction" value="setUser.jsp" />
             <p><input type="submit" class="button" value="<fmt:message key="button.setUser"/>"></p>
 
         </form>
