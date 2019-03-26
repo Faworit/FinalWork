@@ -15,14 +15,14 @@ public class UserDAO {
     public static final String GET_USER_BY_MAIL_PASSWORD = "SELECT ID_USER, PASSWORD, NAME, SURNAME, MAIL, TELEPHONE, BIRTH_DAY, BLOCK, ROLE_NAME FROM USER U, ROLE R WHERE MAIL=? AND PASSWORD=? AND U.ROLE=R.ID_ROLE";
     public static final String GET_USERS_BY_ID_ORDER = "SELECT U.ID_USER, U.PASSWORD, U.NAME, U.SURNAME, U.MAIL, U.TELEPHONE, U.BIRTH_DAY, U.BLOCK, R.ROLE_NAME  FROM USER U, ORDER2USER O2U, BOOKING B, ROLE R WHERE B.ID_ORDER = O2U.ID_ORDER AND U.ID_USER=O2U.ID_USER AND U.ROLE=R.ID_ROLE AND B.ID_ORDER=?";
     public  static final String INSERT_PERFORMER_OF_ORDER = "INSERT INTO order2user (ID_ORDER, ID_USER) VALUES (?, ?)";
-    public  static final String CHENGE_PASSWORD = "UPDATE USER SET PASSWORD = ? WHERE (ID_USER = ?)";
+    public  static final String CHANGE_PASSWORD = "UPDATE USER SET PASSWORD = ? WHERE (ID_USER = ?)";
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
-    public void chengePassword(String password, int ID) throws SQLException {
+    public void changePassword(String password, int ID) throws SQLException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
-        try(PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_MAIL_PASSWORD)) {
+        try(PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_PASSWORD)) {
             preparedStatement.setString(1, password);
             preparedStatement.setInt(2, ID);
             preparedStatement.executeUpdate();

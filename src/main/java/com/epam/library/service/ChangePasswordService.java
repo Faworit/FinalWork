@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class ChengePasswordService implements Service {
+public class ChangePasswordService implements Service {
 
     RequestDispatcher dispatcher;
 
@@ -27,11 +27,13 @@ public class ChengePasswordService implements Service {
         idUser = (int) session.getAttribute("idUser");
         if(!RepeatPasswordValidator.isEqualPasswords(newPass, repeatPassword)){
             request.setAttribute("notEqual", "passwords not equals");
-            dispatcher = request.getRequestDispatcher("setUser.jsp");
+            dispatcher = request.getRequestDispatcher("changePassword.jsp");
             dispatcher.forward(request, response);
         } else{
-            userDAO.chengePassword(md5Password, idUser);
-            response.sendRedirect("jsp/user.jsp");
+            userDAO.changePassword(md5Password, idUser);
+            request.setAttribute("information", "password changed success");
+            dispatcher = request.getRequestDispatcher("information.jsp");
+            dispatcher.forward(request, response);
         }
     }
 }

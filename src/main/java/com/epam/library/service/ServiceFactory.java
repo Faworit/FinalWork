@@ -12,7 +12,7 @@ public class ServiceFactory {
         MAP_OF_SERVICE.put("/LogIn", new LogInService());
         MAP_OF_SERVICE.put("/jsp/addAuthor", new AddAuthorService());
         MAP_OF_SERVICE.put("/jsp/addGenre", new AddGenreService());
-        MAP_OF_SERVICE.put("/jsp/changePassword", new ChengePasswordService());
+        MAP_OF_SERVICE.put("/jsp/changePassword", new ChangePasswordService());
         MAP_OF_SERVICE.put("/jsp/createUser", new AddUserService());
         MAP_OF_SERVICE.put("/jsp/createBook", new AddBookService());
         MAP_OF_SERVICE.put("/jsp/confirm", new ConfirmReceiptService());

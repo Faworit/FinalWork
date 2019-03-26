@@ -55,6 +55,12 @@
             <td><fmt:message key="key.repeatPassword"/></td>
             <td><input type="text" name="repeatPassword" maxlength="6"></td>
         </tr>
+        <tr>
+            <td>
+                <input type="submit" class="button" value="<fmt:message key="button.apply"/>">
+                <p>${notEqual}</p>
+            </td>
+        </tr>
     </table>
 </form>
 </body>
