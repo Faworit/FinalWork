@@ -4,6 +4,7 @@ import com.epam.library.dataBase.CheckUserDAO;
 import com.epam.library.dataBase.CreateUserDAO;
 import com.epam.library.validator.AuthorizationValidator;
 import com.epam.library.validator.RepeatPasswordValidator;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,6 +33,7 @@ public class AddUserService implements Service {
         String telephone = request.getParameter("phone");
         String block = request.getParameter("block");
         String role = request.getParameter("role");
+        String md5Password = DigestUtils.md5Hex(password);
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date birthday = format.parse(request.getParameter("birthday"));
         boolean isCorrectMail;
@@ -51,7 +53,7 @@ public class AddUserService implements Service {
             dispatcher = request.getRequestDispatcher("setUser.jsp");
             dispatcher.forward(request, response);
         } else{
-            createUserDAO.setUser(password, name, surname,  mail, telephone, birthday, block, role);
+            createUserDAO.setUser(md5Password, name, surname,  mail, telephone, birthday, block, role);
             request.setAttribute("information", "new User created successfully");
             dispatcher = request.getRequestDispatcher("information.jsp");
             dispatcher.forward(request, response);

@@ -45,7 +45,7 @@ body {
 .userLine{
     position: relative;
     margin: 0px 0px 0px 0px;
-    height: 100px;
+    height: 130px;
     width: auto;
     background: rgba(227, 196, 151, 0.72);
 }
@@ -77,14 +77,14 @@ body {
 
 .search{
     position: absolute;
-    left: 300px;
+    left: 600px;
     margin: 10px;
     width: 200px;
 }
 
 table{
     position: absolute;
-    top: 110px;
+    top: 150px;
     left: 200px;
     margin: auto;
 }

@@ -10,3 +10,26 @@
     width:300px;
     height:300px;
 }
+.login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -150px 0 0 -150px;
+    width:300px;
+    height:300px;
+}
+
+.button{
+    background: #4d4d4d;
+    border: 1px solid #204d10;
+    overflow: hidden;
+    display: block;
+    text-align: center;
+    line-height: 38px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+.button:hover {
+    background-color: #737373;
+}

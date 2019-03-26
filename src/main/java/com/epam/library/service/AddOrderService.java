@@ -24,7 +24,7 @@ public class AddOrderService implements Service {
         OrderDAO orderDAO = new OrderDAO();
         BookDAO bookDAO = new BookDAO();
         HttpSession session = request.getSession(true);
-        book = GetBookService.getBookFromDB(request, response);
+        book = GetBookService.getBookFromDB(request);
         idBook = book.getID();
         idUser = Integer.parseInt(String.valueOf(session.getAttribute("idUser")));
         orderDAO.createBooking(idBook, idUser, todayDate);

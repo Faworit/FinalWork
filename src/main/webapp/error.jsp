@@ -19,16 +19,13 @@
     <link href="/css/error.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-
-    <p class="photo"> <img src = "/css/img/error.jpg"/></p>
-   <form action="forward" method="get">
+<div class="login">
+    <p class="photo"> <img src = "/css/img/error.jpg" width="600" height="500"/></p>
+    <form action="forward" method="get">
         <input type="hidden" name="direction" value="/jsp/user.jsp" />
-    <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
-
+        <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
     </form>
-
-
-
+</div>
 
 
 </body>

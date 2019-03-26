@@ -23,6 +23,10 @@
 <div class="userLine">
     <div class="greating">
        <h1 align="center">${surname} ${name} </h1>
+        <form action="forward" method="get">
+            <input type="hidden" name="direction" value="changePassword.jsp" />
+            <input type="submit" class="button" value="<fmt:message key="button.changePassword"/>">
+        </form>
     </div>
     <div class="search">
         <form action="/search" method="get">
@@ -43,7 +47,6 @@
         <form action="forward" method="get">
             <input type="hidden" name="direction" value="setUser.jsp" />
             <p><input type="submit" class="button" value="<fmt:message key="button.setUser"/>"></p>
-
         </form>
 
         <form action="showAddBookMenu" method="get">
