@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 public class AddBookService implements Service {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         RequestDispatcher dispatcher;
         boolean isAvailableBook;
         int idBook;
@@ -61,7 +62,7 @@ public class AddBookService implements Service {
         return genres;
     }
 
-    private List<Integer> getIDAuthors(String authorFromJSP){
+    private List<Integer> getIDAuthors(String authorFromJSP) throws SQLException {
         List<String> namesSurnames = parseAuthorRequest(authorFromJSP);
         List<Integer> idAuthors = new ArrayList<>();
         AuthorDAO authorDAO = new AuthorDAO();

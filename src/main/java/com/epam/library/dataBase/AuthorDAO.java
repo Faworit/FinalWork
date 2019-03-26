@@ -20,11 +20,10 @@ public class AuthorDAO {
     public static final String GET_AUTHOR_BY_NAME_SURNAME = "SELECT NAME, SURNAME FROM AUTHOR WHERE NAME = ? AND SURNAME = ?";
     public static final String ADD_AUTHOR = "INSERT INTO AUTHOR (SURNAME, NAME) VALUES (?, ?)";
     public static final String GET_ID_AUTHOR = "SELECT ID_AUTHOR FROM AUTHOR WHERE NAME = ? AND SURNAME = ?";
-    private static final Logger log = Logger.getLogger("UserDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
-    public int getID(String name, String surname){
+    public int getID(String name, String surname) throws SQLException {
         int idAuthor = 0;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
@@ -35,8 +34,6 @@ public class AuthorDAO {
             while(resultSet.next()){
                 idAuthor = resultSet.getInt("ID_AUTHOR");
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
@@ -44,7 +41,7 @@ public class AuthorDAO {
         return idAuthor;
     }
 
-    public List<Author> getAllAuthors(){
+    public List<Author> getAllAuthors() throws SQLException {
         List<Author> authors = new ArrayList<>();
         Author author;
         connectionPool = ConnectionPool.getInstance();
@@ -55,8 +52,6 @@ public class AuthorDAO {
                 author = AuthorFactory.createAuthor(resultSet);
                 authors.add(author);
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
@@ -64,22 +59,20 @@ public class AuthorDAO {
         return authors;
     }
 
-    public void setAuthor(String name, String surname){
+    public void setAuthor(String name, String surname) throws SQLException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_AUTHOR)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, surname);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
         }
     }
 
-    public boolean isExist(String name, String surname){
+    public boolean isExist(String name, String surname) throws SQLException {
         boolean isExists = false;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
@@ -90,8 +83,6 @@ public class AuthorDAO {
             while (resultSet.next()) {
                 isExists = true;
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
@@ -99,7 +90,7 @@ public class AuthorDAO {
         return isExists;
     }
 
-    public List<Author> getAuthor(int IDBook, int language) {
+    public List<Author> getAuthor(int IDBook, int language) throws SQLException {
         List<Author> authors = new ArrayList<>();
         Author author;
         connectionPool = ConnectionPool.getInstance();
@@ -112,15 +103,14 @@ public class AuthorDAO {
                 author = AuthorFactory.createAuthor(resultSet);
                 authors.add(author);
             }
-        } catch (SQLException e) {
-            log.error(e);
-        } finally {
+        }
+        finally {
             connectionPool.returnConnection(connection);
         }
         return authors;
     }
 
-    public void editAuthor(String name, String surname, int idAuthor){
+    public void editAuthor(String name, String surname, int idAuthor) throws SQLException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(EDIT_AUTHOR)) {
@@ -128,8 +118,6 @@ public class AuthorDAO {
             preparedStatement.setString(2, name);
             preparedStatement.setInt(3, idAuthor);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);

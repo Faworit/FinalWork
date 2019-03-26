@@ -6,17 +6,17 @@ import com.epam.library.dataBase.LanguageDAO;
 import com.epam.library.entity.Author;
 import com.epam.library.entity.Genre;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ShowAddBookMenuService implements Service {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int idLanguage;
         List<Genre> genres;
         List<Author> authors;

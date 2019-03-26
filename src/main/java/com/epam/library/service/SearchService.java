@@ -4,11 +4,11 @@ import com.epam.library.dataBase.BookDAO;
 import com.epam.library.dataBase.LanguageDAO;
 import com.epam.library.entity.Book;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 public class SearchService implements Service {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int idLanguage;
         int countWordsSearch;
         String requestDB;

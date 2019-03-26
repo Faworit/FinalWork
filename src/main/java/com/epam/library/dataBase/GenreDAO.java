@@ -1,7 +1,6 @@
 package com.epam.library.dataBase;
 
 import com.epam.library.entity.Genre;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,11 +18,10 @@ public class GenreDAO {
     public static final String EDIT_GENRE = "UPDATE GENRE SET GENRE_NAME = ? WHERE (ID_GENRE = ?) and (ID_LANGUAGE = ?)";
     public static final String GET_LAST_ID_GENRE = "SELECT MAX(ID_GENRE) FROM GENRE";
     public static final String ADD_GENRE = "INSERT INTO GENRE (ID_GENRE, ID_LANGUAGE, GENRE_NAME) VALUES (?, ?, ?)";
-    private static final Logger log = Logger.getLogger("UserDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
-    public List<Genre> getGenre(int IDBook, int language) {
+    public List<Genre> getGenre(int IDBook, int language) throws SQLException {
         int IDGenre;
         int IDLanguage;
         String genreName;
@@ -42,8 +40,6 @@ public class GenreDAO {
                 genre = new Genre(IDGenre, IDLanguage, genreName);
                 geners.add(genre);
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
@@ -70,15 +66,14 @@ public class GenreDAO {
                 genres.add(genre);
             }
         } catch (SQLException e) {
-            log.error(e);
-        }
-        finally {
+            e.printStackTrace();
+        } finally {
             connectionPool.returnConnection(connection);
         }
         return genres;
     }
 
-    public void setEditGenre(int idGenre, int idLanguage, String genreName){
+    public void setEditGenre(int idGenre, int idLanguage, String genreName) throws SQLException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(EDIT_GENRE)) {
@@ -86,15 +81,13 @@ public class GenreDAO {
             preparedStatement.setInt(2, idGenre);
             preparedStatement.setInt(3, idLanguage);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
         }
     }
 
-    public int getLastId(){
+    public int getLastId() throws SQLException {
         int lastId = 0;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
@@ -103,8 +96,6 @@ public class GenreDAO {
             while (resultSet.next()){
                 lastId = resultSet.getInt("MAX(ID_GENRE)");
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
@@ -112,7 +103,7 @@ public class GenreDAO {
         return lastId;
     }
 
-    public void addGenre(int idGenre, int idLanguage, String genreName){
+    public void addGenre(int idGenre, int idLanguage, String genreName) throws SQLException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_GENRE)) {
@@ -120,8 +111,6 @@ public class GenreDAO {
             preparedStatement.setInt(2, idLanguage);
             preparedStatement.setString(3, genreName);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);

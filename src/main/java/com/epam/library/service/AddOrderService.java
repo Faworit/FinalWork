@@ -4,18 +4,18 @@ import com.epam.library.dataBase.BookDAO;
 import com.epam.library.dataBase.OrderDAO;
 import com.epam.library.entity.Book;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class AddOrderService implements Service {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         int idBook;
         int idUser;

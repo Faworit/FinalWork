@@ -2,7 +2,6 @@ package com.epam.library.dataBase;
 
 import com.epam.library.factory.OrderFactory;
 import com.epam.library.entity.Order;
-import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,11 +32,10 @@ public class OrderDAO {
     public static final String UPDATE_ACTUALLY_RETURN_DATE = "UPDATE BOOKING SET ACTUALLY_RETURNED=?, ID_STATE = ? WHERE ID_ORDER=?";
     public static final String UPDATE_ACCEPTED_DATE = "UPDATE BOOKING SET ACCEPTED_DATE = ? WHERE (ID_ORDER = ?)";
     public static final String CHANGE_STATUS = "UPDATE BOOKING SET ID_STATE = ? WHERE ID_ORDER=?";
-    private static final Logger log = Logger.getLogger("OrderDAO");
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
-    public void updateAcceptedDate(Date acceptedDate, int idOrder){
+    public void updateAcceptedDate(Date acceptedDate, int idOrder) throws SQLException {
         java.sql.Date sqlFormatAcceptedDate = convertDate(acceptedDate);
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
@@ -45,15 +43,13 @@ public class OrderDAO {
             preparedStatement.setDate(1, sqlFormatAcceptedDate);
             preparedStatement.setInt(2, idOrder);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
         }
     }
 
-    public List<Order> getNewOrders(int idLanguage, int idStatus){
+    public List<Order> getNewOrders(int idLanguage, int idStatus) throws SQLException {
         List<Order> orders = new ArrayList<>();
         Order order;
         connectionPool = ConnectionPool.getInstance();
@@ -66,8 +62,6 @@ public class OrderDAO {
                 order = OrderFactory.collectOrder(resultSet);
                 orders.add(order);
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
@@ -75,7 +69,7 @@ public class OrderDAO {
         return orders;
     }
 
-    public Order getOrderExecuting(int idLanguage, int idOrder){
+    public Order getOrderExecuting(int idLanguage, int idOrder) throws SQLException {
         Order order = null;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
@@ -86,17 +80,14 @@ public class OrderDAO {
             while(resultSet.next()){
                 order = OrderFactory.collectOrder(resultSet);
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
         }
-
         return order;
     }
 
-    public List<Order> getPersonalOrders(int idLanguage, int idUser){
+    public List<Order> getPersonalOrders(int idLanguage, int idUser) throws SQLException {
         List<Order> orders = new ArrayList<>();
         Order order;
         connectionPool = ConnectionPool.getInstance();
@@ -109,8 +100,6 @@ public class OrderDAO {
                 order = OrderFactory.collectOrder(resultSet);
                 orders.add(order);
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
@@ -118,7 +107,7 @@ public class OrderDAO {
         return orders;
     }
 
-    public List<Order>  getAllOrders(int idLanguage){
+    public List<Order>  getAllOrders(int idLanguage) throws SQLException {
         List<Order> orders = new ArrayList<>();
         Order order;
         connectionPool = ConnectionPool.getInstance();
@@ -130,8 +119,6 @@ public class OrderDAO {
                 order = OrderFactory.collectOrder(resultSet);
                 orders.add(order);
             }
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
@@ -139,7 +126,7 @@ public class OrderDAO {
         return orders;
     }
 
-    public void createBooking(int idBook, int idUser, Date todayDate){
+    public void createBooking(int idBook, int idUser, Date todayDate) throws SQLException {
         java.sql.Date sqlFormatOrderDate = convertDate(todayDate);
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
@@ -149,22 +136,17 @@ public class OrderDAO {
             preparedStatement.setDate(2, sqlFormatOrderDate);
             preparedStatement.executeUpdate();
             idOrder= getGeneratedKey(preparedStatement);
-
-        } catch (SQLException e) {
-            log.error(e);
         }
         if(idOrder>0) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_ORDER2USER)) {
                 preparedStatement.setInt(1, idOrder);
                 preparedStatement.setInt(2, idUser);
                 preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                log.error(e);
             }
         }
     }
 
-    public void updateBooking(Date orderDate, Date returnDate, int status, int idOrder){
+    public void updateBooking(Date orderDate, Date returnDate, int status, int idOrder) throws SQLException {
         java.sql.Date sqlFormatOrderDate = convertDate(orderDate);
         java.sql.Date sqlFormatReturnDate = convertDate(returnDate);
         connectionPool = ConnectionPool.getInstance();
@@ -175,30 +157,26 @@ public class OrderDAO {
             preparedStatement.setInt(3, status);
             preparedStatement.setInt(4, idOrder);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
         }
     }
 
-    public void changeStatus(int status, int idOrder){
+    public void changeStatus(int status, int idOrder) throws SQLException {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try(PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_STATUS)){
             preparedStatement.setInt(1, status);
             preparedStatement.setInt(2, idOrder);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e);
         }
         finally {
             connectionPool.returnConnection(connection);
         }
     }
 
-    public void updateActuallyReturnBooking(Date actuallyReturn, int idStatus, int idOrder){
+    public void updateActuallyReturnBooking(Date actuallyReturn, int idStatus, int idOrder) throws SQLException {
         java.sql.Date sqlFormatActuallyReturnDate = convertDate(actuallyReturn);
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
@@ -207,8 +185,6 @@ public class OrderDAO {
             preparedStatement.setInt(2, idStatus);
             preparedStatement.setInt(3, idOrder);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         finally {
             connectionPool.returnConnection(connection);

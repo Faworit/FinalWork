@@ -103,10 +103,6 @@
             </td>
             <td>
                 <input type="button" class="button" onclick="delAuthor()" id="clearButton" value="clear">
-
-
-               <%-- разобраться с вынососм скриптов, а именно при выносе кнопка срабатывает только со второго раза--%>
-
                 <script type="text/javascript">
                     document.getElementById("clearButton").onclick = function(){
                         document.getElementById("authorField").value = "";
