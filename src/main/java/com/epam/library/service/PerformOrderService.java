@@ -29,7 +29,6 @@ public class PerformOrderService implements Service {
         int idLanguage;
         List<String> statuses;
         Date todayDate = new Date();
-        System.out.println(request.getParameter("userName"));
         Order booking;
         UserDAO userDAO = new UserDAO();
         OrderDAO orderDAO = new OrderDAO();
@@ -47,7 +46,8 @@ public class PerformOrderService implements Service {
         statuses = statusDAO.getStatuses(idLanguage);
         session.setAttribute("booking", booking);
         session.setAttribute("list", statuses);
-        dispatcher = request.getRequestDispatcher("orderProcessing.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect("orderProcessing.jsp");
+        /*dispatcher = request.getRequestDispatcher("orderProcessing.jsp");
+        dispatcher.forward(request, response);*/
     }
 }

@@ -27,6 +27,7 @@ public class EditBookingService implements Service {
         int idOrder;
         int idStatus;
         String status = request.getParameter("status");
+        System.out.println(status);
         String role;
         Date todayDate = new Date();
         Date orderDate;
@@ -46,12 +47,13 @@ public class EditBookingService implements Service {
             if(request.getParameter("orderDate")!=null && request.getParameter("returnDate")!=null) {
                 orderDate = format.parse(request.getParameter("orderDate"));
                 returnDate = format.parse(request.getParameter("returnDate"));
-                if (orderDate.after(todayDate) && returnDate.before(todayDate)) {
+                if (returnDate.before(todayDate)) {
                     session.setAttribute("error", "not correct date");
-                    dispatcher = request.getRequestDispatcher("jsp/orderProcessing.jsp");
+                    dispatcher = request.getRequestDispatcher("orderProcessing.jsp");
                     dispatcher.forward(request, response);
                 } else {
                     orderDAO.updateBooking(orderDate, returnDate, idStatus, idOrder);
+
                 }
             }
             if (!request.getParameter("actuallyReturn").isEmpty() && request.getParameter("orderDate")!=null) {
@@ -65,10 +67,9 @@ public class EditBookingService implements Service {
                     orderDAO.updateActuallyReturnBooking(actuallyReturn, idStatus, idOrder);
                 }
             }
-
-        }
-         else {
-            orderDAO.changeStatus(idStatus, idOrder);
+            else {
+                orderDAO.changeStatus(idStatus, idOrder);
+            }
         }
         showOrderService.execute(request, response);
     }
