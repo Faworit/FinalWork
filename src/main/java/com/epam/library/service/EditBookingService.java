@@ -27,7 +27,6 @@ public class EditBookingService implements Service {
         int idOrder;
         int idStatus;
         String status = request.getParameter("status");
-        System.out.println(status);
         String role;
         Date todayDate = new Date();
         Date orderDate;
