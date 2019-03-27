@@ -106,7 +106,7 @@
                  </select>
             </td>
             <td>
-                <p><input type="submit" class="button" value="<fmt:message key="key.apply"/>">${error}</p>
+                <p><input type="submit" class="button" value="<fmt:message key="key.apply"/>"><h4>${error}</h4></p>
             </td>
         </tr>
     </form>
