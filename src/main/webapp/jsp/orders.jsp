@@ -75,7 +75,7 @@
             <td><fmt:message key="button.perform"/></td>
         </c:if>
         <c:if test="${role eq 'reader'}">
-            <td><fmt:message key="key.giveAway"/></td>
+            <td><fmt:message key="key.receiver"/></td>
         </c:if>
     </tr>
     <c:forEach var="booking" items="${list}">
@@ -89,7 +89,6 @@
             <td>${booking.state}</td>
             <c:if test="${role eq 'reader'}">
                 <td>${booking.reader.name}</td>
-                reader
             </c:if>
             <c:if test="${role eq 'librarian'}">
                 <td>
@@ -100,21 +99,26 @@
                     ${booking.librarian.name}
                     ${booking.librarian.surname}
                 </td>
-                test
             </c:if>
+            <c:if test="${booking.state ne'finished' && booking.state ne'завершен' && role eq 'librarian'}">
             <td>
-                <c:if test="${booking.state ne'finished' && booking.state ne'завершен'}">
-                    <form action="perform" method="get">
-                        <input type="hidden" name="ID" value="${booking.orderID}">
-                        <input type="submit" class="button" value="<fmt:message key="button.perform"/>">
-                    </form>
-                </c:if>
+                <form action="perform" method="get">
+                    <input type="hidden" name="userName" value="${booking.librarian.name}">
+                    <input type="hidden" name="idOrder" value="${booking.orderID}">
+                    <input type="submit" class="button" value="<fmt:message key="button.perform"/>">
+                </form>
             </td>
+            </c:if>
+            <c:if test="${booking.state eq'in progress' || booking.state eq'в процессе' && role eq 'reader'}">
+                <td>
+                    <form action="confirm" method="get">
+                        <input type="hidden" name="idOrder" value="${booking.orderID}">
+                        <input type="submit" class="button" value="<fmt:message key="button.confirmReceipt"/>">
+                    </form>
+                </td>
+            </c:if>
         </tr>
     </c:forEach>
-
-
 </table>
-
 </body>
 </html>

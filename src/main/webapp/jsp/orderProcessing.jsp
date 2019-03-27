@@ -98,7 +98,7 @@
                 ${booking.reader.surname}
             </td>
             <td>
-                <select name="status">
+                <select name="status" required>
                     <option selected disabled><fmt:message key="key.selectStatus"/></option>
                     <c:forEach var="status" items="${list}">
                         <option>${status}</option>

@@ -24,11 +24,12 @@ public class PerformOrderService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-        int idOrder = Integer.parseInt(request.getParameter("ID"));
+        int idOrder = Integer.parseInt(request.getParameter("idOrder"));
         int idUser;
         int idLanguage;
         List<String> statuses;
         Date todayDate = new Date();
+        System.out.println(request.getParameter("userName"));
         Order booking;
         UserDAO userDAO = new UserDAO();
         OrderDAO orderDAO = new OrderDAO();
@@ -37,13 +38,16 @@ public class PerformOrderService implements Service {
         HttpSession session = request.getSession(true);
         idUser = (int) session.getAttribute("idUser");
         idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
-        userDAO.insertPerformer(idOrder, idUser);
+        if(request.getParameter("userName").isEmpty()){
+            System.out.println("hello");
+            userDAO.insertPerformer(idOrder, idUser);
+        }
         orderDAO.updateAcceptedDate(todayDate, idOrder);
         booking = orderDAO.getOrderExecuting(idLanguage, idOrder);
         statuses = statusDAO.getStatuses(idLanguage);
         session.setAttribute("booking", booking);
         session.setAttribute("list", statuses);
-        dispatcher = request.getRequestDispatcher("jsp/orderProcessing.jsp");
+        dispatcher = request.getRequestDispatcher("orderProcessing.jsp");
         dispatcher.forward(request, response);
     }
 }
