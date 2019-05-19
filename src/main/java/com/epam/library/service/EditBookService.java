@@ -1,9 +1,9 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.AuthorDAO;
-import com.epam.library.dataBase.BookDAO;
-import com.epam.library.dataBase.GenreDAO;
-import com.epam.library.dataBase.LanguageDAO;
+import com.epam.library.dataBase.impl.AuthorDAOImpl;
+import com.epam.library.dataBase.impl.BookDAOImpl;
+import com.epam.library.dataBase.impl.GenreDAOImpl;
+import com.epam.library.dataBase.impl.LanguageDAOImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +19,8 @@ public class EditBookService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         HttpSession session = request.getSession(true);
 
-        BookDAO bookDAO = new BookDAO();
-        LanguageDAO languageDAO = new LanguageDAO();
+        BookDAOImpl bookDAO = new BookDAOImpl();
+        LanguageDAOImpl languageDAO = new LanguageDAOImpl();
         String title = request.getParameter("title");
         String ISBN = request.getParameter("ISBN");
         int quantity = Integer.parseInt(request.getParameter("quantity"));
@@ -31,14 +31,14 @@ public class EditBookService implements Service {
         String[] authorNames = request.getParameterValues("name");
         String[] authorSurnames = request.getParameterValues("surname");
         for (int i = 0; i < authorNames.length; i++) {
-            AuthorDAO authorDAO = new AuthorDAO();
+            AuthorDAOImpl authorDAO = new AuthorDAOImpl();
             int idAuthor = Integer.parseInt(request.getParameter("idAuthor"));
             authorDAO.editAuthor(authorNames[i], authorSurnames[i], idAuthor);
         }
 
         String[] genres = request.getParameterValues("genre");
         for (int i = 0; i < genres.length; i++) {
-            GenreDAO genreDAO = new GenreDAO();
+            GenreDAOImpl genreDAO = new GenreDAOImpl();
             String[] idGenres = request.getParameterValues("idGenre");
             List<Integer> idGenreConvert = convertFromString(idGenres);
             genreDAO.setEditGenre(idGenreConvert.get(i), idLanguage, genres[i]);

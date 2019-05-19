@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CommonDAO <T extends Entity> {
     List<T> getAll(int id) throws SQLException;
-    void create(Object object) throws SQLException;
+    void create(T object) throws SQLException;
     void delete(int id) throws SQLException;
 
 

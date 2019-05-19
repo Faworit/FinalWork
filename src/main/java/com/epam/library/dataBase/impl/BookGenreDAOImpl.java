@@ -1,11 +1,14 @@
-package com.epam.library.dataBase;
+package com.epam.library.dataBase.impl;
+
+import com.epam.library.dataBase.CommonDAO;
+import com.epam.library.dataBase.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class BookGenreDAO implements CommonDAO{
+public class BookGenreDAOImpl implements CommonDAO {
 
     private static final String ADD_DATA_TO_BOOK2GENRE = "INSERT INTO BOOK2GENRE (ID_BOOK, ID_LANGUAGE, ID_GENRE) " +
             "select book.id_book, book.id_language, genre.id_genre from book, genre where book.id_book=? and" +

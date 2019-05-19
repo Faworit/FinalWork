@@ -1,7 +1,7 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.OrderDAO;
-import com.epam.library.dataBase.StatusDAO;
+import com.epam.library.dataBase.impl.OrderDAOImpl;
+import com.epam.library.dataBase.impl.StatusDAOImpl;
 import com.epam.library.entity.Order;
 
 import javax.servlet.RequestDispatcher;
@@ -26,7 +26,7 @@ public class EditBookingService implements Service {
 
         HttpSession session = request.getSession(true);
 
-        StatusDAO statusDAO = new StatusDAO();
+        StatusDAOImpl statusDAO = new StatusDAOImpl();
         Order order = (Order) session.getAttribute("booking");
         int idOrder = order.getId();
         String status = request.getParameter("status");
@@ -34,7 +34,7 @@ public class EditBookingService implements Service {
 
         Date orderDate;
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        OrderDAO orderDAO = new OrderDAO();
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         if(request.getParameter("orderDate")!=null && request.getParameter("returnDate")!=null) {
             orderDate = format.parse(request.getParameter("orderDate"));
             Date returnDate = format.parse(request.getParameter("returnDate"));

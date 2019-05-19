@@ -1,9 +1,9 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.LanguageDAO;
-import com.epam.library.dataBase.OrderDAO;
-import com.epam.library.dataBase.StatusDAO;
-import com.epam.library.dataBase.UserDAO;
+import com.epam.library.dataBase.impl.LanguageDAOImpl;
+import com.epam.library.dataBase.impl.OrderDAOImpl;
+import com.epam.library.dataBase.impl.StatusDAOImpl;
+import com.epam.library.dataBase.impl.UserDAOImpl;
 import com.epam.library.entity.Order;
 
 import javax.servlet.RequestDispatcher;
@@ -24,22 +24,22 @@ public class PerformOrderService implements Service {
 
         HttpSession session = request.getSession(true);
 
-        LanguageDAO languageDAO = new LanguageDAO();
+        LanguageDAOImpl languageDAO = new LanguageDAOImpl();
         int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
         int idOrder = Integer.parseInt(request.getParameter("idOrder"));
 
-        UserDAO userDAO = new UserDAO();
+        UserDAOImpl userDAO = new UserDAOImpl();
         if(request.getParameter("userName").isEmpty()){
             int idUser = (int) session.getAttribute("idUser");
             userDAO.insertPerformer(idOrder, idUser);
         }
 
-        OrderDAO orderDAO = new OrderDAO();
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         Date todayDate = new Date();
         orderDAO.updateAcceptedDate(todayDate, idOrder);
         Order booking = orderDAO.getOrderExecuting(idLanguage, idOrder);
 
-        StatusDAO statusDAO = new StatusDAO();
+        StatusDAOImpl statusDAO = new StatusDAOImpl();
         List<String> statuses = statusDAO.getStatuses(idLanguage);
 
         session.setAttribute("booking", booking);

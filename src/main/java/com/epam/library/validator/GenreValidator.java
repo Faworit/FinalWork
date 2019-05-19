@@ -1,6 +1,6 @@
 package com.epam.library.validator;
 
-import com.epam.library.dataBase.GenreDAO;
+import com.epam.library.dataBase.impl.GenreDAOImpl;
 import com.epam.library.entity.Genre;
 
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ public class GenreValidator {
 
     public static boolean checkGenre(List<Genre> genres) throws SQLException {
         boolean isExists = false;
-        GenreDAO genreDAO = new GenreDAO();
+        GenreDAOImpl genreDAO = new GenreDAOImpl();
         for(int n=0; n<genres.size(); n++){
             List<Genre> dbGenres = genreDAO.getAll(genres.get(n).getIDLanguage());
             for (int i = 0; i < dbGenres.size(); i++) {

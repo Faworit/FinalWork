@@ -1,6 +1,6 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.AuthorDAO;
+import com.epam.library.dataBase.impl.AuthorDAOImpl;
 import com.epam.library.entity.Author;
 
 import javax.servlet.RequestDispatcher;
@@ -18,7 +18,7 @@ public class AddAuthorService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-        AuthorDAO authorDAO = new AuthorDAO();
+        AuthorDAOImpl authorDAO = new AuthorDAOImpl();
         boolean isExists = authorDAO.isExist(name, surname);
         if(!isExists){
             Author author = createAuthor(name, surname);

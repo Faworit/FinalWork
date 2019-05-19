@@ -1,43 +1,10 @@
 package com.epam.library.dataBase;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import com.epam.library.entity.Language;
+
 import java.sql.SQLException;
-import java.util.List;
 
-public class LanguageDAO implements CommonDAO{
+public interface LanguageDAO <T extends Language> extends CommonDAO {
 
-    private static final String GET_ID_LANGUAGE = "SELECT ID_LANGUAGE FROM LANGUAGE WHERE LANGUAGE=?";
-    private ConnectionPool connectionPool;
-    private Connection connection = null;
-
-    public int getIdLanguage(String language) throws SQLException {
-        int idLanguage = 1;
-        connectionPool = ConnectionPool.getInstance();
-        connection = connectionPool.getConnection();
-        try(PreparedStatement preparedStatement = connection.prepareStatement(GET_ID_LANGUAGE)){
-            preparedStatement.setString(1, language);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                idLanguage = resultSet.getInt("ID_LANGUAGE");
-            }
-        }
-        return idLanguage;
-    }
-
-    @Override
-    public List getAll(int id){
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void create(Object object){
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void delete(int id){
-        throw new UnsupportedOperationException();
-    }
+    int getIdLanguage(String language) throws SQLException;
 }

@@ -1,7 +1,7 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.GenreDAO;
-import com.epam.library.dataBase.LanguageDAO;
+import com.epam.library.dataBase.impl.GenreDAOImpl;
+import com.epam.library.dataBase.impl.LanguageDAOImpl;
 import com.epam.library.entity.Genre;
 import com.epam.library.validator.GenreValidator;
 
@@ -35,7 +35,7 @@ public class AddGenreService implements Service {
             dispatcher = request.getRequestDispatcher("addGenre.jsp");
             dispatcher.forward(request, response);
         } else {
-            GenreDAO genreDAO = new GenreDAO();
+            GenreDAOImpl genreDAO = new GenreDAOImpl();
 
             for (int i = 0; i < genres.size(); i++) {
               genreDAO.create(genres.get(i));
@@ -47,7 +47,7 @@ public class AddGenreService implements Service {
     }
 
     private List<Genre> createGenre(String genreRU, String genreENG) throws SQLException {
-        GenreDAO genreDAO = new GenreDAO();
+        GenreDAOImpl genreDAO = new GenreDAOImpl();
         List<Genre> genres = new ArrayList<>();
         int idGenre = genreDAO.getLastId()+1;
 
@@ -61,7 +61,7 @@ public class AddGenreService implements Service {
     }
 
     private HashMap<String, Integer> getName(String genreRU, String genreENG) throws SQLException {
-        LanguageDAO languageDAO = new LanguageDAO();
+        LanguageDAOImpl languageDAO = new LanguageDAOImpl();
         int idRussianLanguage = languageDAO.getIdLanguage("RU");
         int idEnglishLanguage = languageDAO.getIdLanguage("ENG");
 

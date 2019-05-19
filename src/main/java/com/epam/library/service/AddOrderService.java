@@ -1,7 +1,7 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.BookDAO;
-import com.epam.library.dataBase.OrderDAO;
+import com.epam.library.dataBase.impl.BookDAOImpl;
+import com.epam.library.dataBase.impl.OrderDAOImpl;
 import com.epam.library.entity.Book;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +22,10 @@ public class AddOrderService implements Service {
         int idUser = Integer.parseInt(String.valueOf(session.getAttribute("idUser")));
         Date todayDate = new Date();
 
-        OrderDAO orderDAO = new OrderDAO();
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         orderDAO.createBooking(idBook, idUser, todayDate);
-        BookDAO bookDAO = new BookDAO();
-        bookDAO.editByID(idBook, BookDAO.UPDATE_QUANTITY);
+        BookDAOImpl bookDAO = new BookDAOImpl();
+        bookDAO.editByID(idBook, BookDAOImpl.UPDATE_QUANTITY);
         ShowOrderService showOrderService = new ShowOrderService();
         showOrderService.execute(request, response);
     }

@@ -1,4 +1,7 @@
-package com.epam.library.dataBase;
+package com.epam.library.dataBase.impl;
+
+import com.epam.library.dataBase.CommonDAO;
+import com.epam.library.dataBase.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatusDAO implements CommonDAO{
+public class StatusDAOImpl implements CommonDAO {
 
     private static final String GET_STATE_NAME = "SELECT NAME FROM STATE WHERE ID_LANGUAGE=? AND NAME!='выдан' AND NAME!='issued'";
     private static final String GET_STATUS_ID_BY_NAME = "SELECT ID_STATE FROM STATE WHERE NAME=?";

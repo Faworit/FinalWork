@@ -1,6 +1,6 @@
 package com.epam.library.factory;
 
-import com.epam.library.dataBase.UserDAO;
+import com.epam.library.dataBase.impl.UserDAOImpl;
 import com.epam.library.entity.Order;
 import com.epam.library.entity.User;
 
@@ -22,7 +22,7 @@ public class OrderFactory {
         order.setActuallyReturn(resultSet.getDate("ACTUALLY_RETURNED"));
         order.setState(resultSet.getString("NAME"));
 
-        UserDAO userDAO = new UserDAO();
+        UserDAOImpl userDAO = new UserDAOImpl();
         List<User> users = userDAO.getUserByID(resultSet.getInt("ID_ORDER"));
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);

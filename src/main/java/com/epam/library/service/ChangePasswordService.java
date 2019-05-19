@@ -1,6 +1,6 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.UserDAO;
+import com.epam.library.dataBase.impl.UserDAOImpl;
 import com.epam.library.validator.RepeatPasswordValidator;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -31,7 +31,7 @@ public class ChangePasswordService implements Service {
         } else{
             String md5Password = DigestUtils.md5Hex(newPass);
             int idUser = (int) session.getAttribute("idUser");
-            UserDAO userDAO = new UserDAO();
+            UserDAOImpl userDAO = new UserDAOImpl();
             userDAO.changePassword(md5Password, idUser);
 
             request.setAttribute("information", "password changed success");

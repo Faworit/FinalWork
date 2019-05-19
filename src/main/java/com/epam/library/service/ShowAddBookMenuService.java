@@ -1,8 +1,8 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.AuthorDAO;
-import com.epam.library.dataBase.GenreDAO;
-import com.epam.library.dataBase.LanguageDAO;
+import com.epam.library.dataBase.impl.AuthorDAOImpl;
+import com.epam.library.dataBase.impl.GenreDAOImpl;
+import com.epam.library.dataBase.impl.LanguageDAOImpl;
 import com.epam.library.entity.Author;
 import com.epam.library.entity.Genre;
 
@@ -19,12 +19,12 @@ public class ShowAddBookMenuService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         HttpSession session = request.getSession(true);
 
-        LanguageDAO languageDAO = new LanguageDAO();
-        GenreDAO genreDAO = new GenreDAO();
-        AuthorDAO authorDAO = new AuthorDAO();
+        LanguageDAOImpl languageDAO = new LanguageDAOImpl();
+        GenreDAOImpl genreDAO = new GenreDAOImpl();
+        AuthorDAOImpl authorDAO = new AuthorDAOImpl();
         int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
         List<Genre> genres = genreDAO.getAll(idLanguage);
-        List<Author> authors = authorDAO.getAllAuthors();
+        List<Author> authors = authorDAO.getAll();
 
         session.setAttribute("list", genres);
         session.setAttribute("listAuthors", authors);

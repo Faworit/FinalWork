@@ -1,6 +1,6 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.UserDAO;
+import com.epam.library.dataBase.impl.UserDAOImpl;
 import com.epam.library.entity.User;
 import com.epam.library.validator.AuthorizationValidator;
 import com.epam.library.validator.RepeatPasswordValidator;
@@ -28,7 +28,7 @@ public class AddUserService implements Service {
 
         String password = request.getParameter("password");
         String mail = request.getParameter("mail");
-        UserDAO userDAO = new UserDAO();
+        UserDAOImpl userDAO = new UserDAOImpl();
         boolean isCorrectMail = AuthorizationValidator.validateMailRegex(mail);
         boolean isUser = userDAO.checkUser(mail);
         String repeatPassword = request.getParameter("repeatPassword");

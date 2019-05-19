@@ -1,8 +1,8 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.AuthorDAO;
-import com.epam.library.dataBase.BookDAO;
-import com.epam.library.dataBase.BookGenreDAO;
+import com.epam.library.dataBase.impl.AuthorDAOImpl;
+import com.epam.library.dataBase.impl.BookDAOImpl;
+import com.epam.library.dataBase.impl.BookGenreDAOImpl;
 import com.epam.library.entity.Book;
 import com.epam.library.validator.BookValidator;
 
@@ -32,14 +32,14 @@ public class AddBookService implements Service {
             dispatcher = request.getRequestDispatcher("addBook.jsp");
             dispatcher.forward(request, response);
         } else{
-            BookDAO bookDAO = new BookDAO();
+            BookDAOImpl bookDAO = new BookDAOImpl();
             int idBook = bookDAO.getLastIdBook()+1;
             List<Book> books = createBook(request, ISBN, idBook);
             for (int i = 0; i < books.size(); i++) {
                 Book book = books.get(i);
                 bookDAO.create(book);
             }
-            BookGenreDAO bookGenreDAO = new BookGenreDAO();
+            BookGenreDAOImpl bookGenreDAO = new BookGenreDAOImpl();
             bookGenreDAO.addData(idBook,1,genres);
             bookGenreDAO.addData(idBook,2,genres);
             String authorFromJSP = request.getParameter("author");
@@ -86,7 +86,7 @@ public class AddBookService implements Service {
     private List<Integer> getIDAuthors(String authorFromJSP) throws SQLException {
         List<String> namesSurnames = parseAuthorRequest(authorFromJSP);
         List<Integer> idAuthors = new ArrayList<>();
-        AuthorDAO authorDAO = new AuthorDAO();
+        AuthorDAOImpl authorDAO = new AuthorDAOImpl();
         for (int i = 0; i < namesSurnames.size(); i++) {
             Matcher matcher = Pattern.compile("[^\\s{1}]+").matcher(namesSurnames.get(i));
             matcher.find();

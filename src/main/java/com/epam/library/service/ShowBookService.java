@@ -1,7 +1,7 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.BookDAO;
-import com.epam.library.dataBase.LanguageDAO;
+import com.epam.library.dataBase.impl.BookDAOImpl;
+import com.epam.library.dataBase.impl.LanguageDAOImpl;
 import com.epam.library.entity.Book;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +17,8 @@ public class ShowBookService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         HttpSession session = request.getSession(true);
 
-        LanguageDAO languageDAO = new LanguageDAO();
-        BookDAO bookDAO = new BookDAO();
+        LanguageDAOImpl languageDAO = new LanguageDAOImpl();
+        BookDAOImpl bookDAO = new BookDAOImpl();
         int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
         List<Book> books = bookDAO.getAll(idLanguage);
 

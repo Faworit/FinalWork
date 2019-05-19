@@ -1,7 +1,7 @@
 package com.epam.library.factory;
 
-import com.epam.library.dataBase.AuthorDAO;
-import com.epam.library.dataBase.GenreDAO;
+import com.epam.library.dataBase.impl.AuthorDAOImpl;
+import com.epam.library.dataBase.impl.GenreDAOImpl;
 import com.epam.library.entity.Author;
 import com.epam.library.entity.Book;
 import com.epam.library.entity.Genre;
@@ -15,9 +15,9 @@ public class BookFactory {
     public static Book createBook(ResultSet resultSet, int language) throws SQLException {
         int IDBook = resultSet.getInt("ID_BOOK");
 
-        AuthorDAO authorDAO = new AuthorDAO();
+        AuthorDAOImpl authorDAO = new AuthorDAOImpl();
         List<Author> authors = authorDAO.getAuthor(IDBook, language);
-        GenreDAO genreDAO = new GenreDAO();
+        GenreDAOImpl genreDAO = new GenreDAOImpl();
         List<Genre> genres = genreDAO.getGenre(IDBook, language);
 
         Book book = new Book();

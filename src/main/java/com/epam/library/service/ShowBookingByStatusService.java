@@ -1,8 +1,8 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.LanguageDAO;
-import com.epam.library.dataBase.OrderDAO;
-import com.epam.library.dataBase.StatusDAO;
+import com.epam.library.dataBase.impl.LanguageDAOImpl;
+import com.epam.library.dataBase.impl.OrderDAOImpl;
+import com.epam.library.dataBase.impl.StatusDAOImpl;
 import com.epam.library.entity.Order;
 
 import javax.servlet.RequestDispatcher;
@@ -23,9 +23,9 @@ public class ShowBookingByStatusService implements Service {
         HttpSession session = request.getSession(true);
 
         String status = request.getParameter("status");
-        LanguageDAO languageDAO = new LanguageDAO();
-        OrderDAO orderDAO = new OrderDAO();
-        StatusDAO statusDAO = new StatusDAO();
+        LanguageDAOImpl languageDAO = new LanguageDAOImpl();
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
+        StatusDAOImpl statusDAO = new StatusDAOImpl();
 
         int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
         int idStatus = statusDAO.getStatusID(status);

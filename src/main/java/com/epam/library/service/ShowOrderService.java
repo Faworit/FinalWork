@@ -1,7 +1,7 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.LanguageDAO;
-import com.epam.library.dataBase.OrderDAO;
+import com.epam.library.dataBase.impl.LanguageDAOImpl;
+import com.epam.library.dataBase.impl.OrderDAOImpl;
 import com.epam.library.entity.Order;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +18,10 @@ public class ShowOrderService implements Service {
         HttpSession session = request.getSession(true);
 
         String role = (String) session.getAttribute("role");
-        LanguageDAO languageDAO = new LanguageDAO();
+        LanguageDAOImpl languageDAO = new LanguageDAOImpl();
         int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
 
-        OrderDAO orderDAO = new OrderDAO();
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         List<Order> bookings;
         if(role.equals("reader")){
             int idUser = (int) session.getAttribute("idUser");

@@ -1,6 +1,6 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.UserDAO;
+import com.epam.library.dataBase.impl.UserDAOImpl;
 import com.epam.library.entity.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -27,7 +27,7 @@ public class LogInService implements Service {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String md5Password = DigestUtils.md5Hex(password);
-        UserDAO userDAO = new UserDAO();
+        UserDAOImpl userDAO = new UserDAOImpl();
         User user = userDAO.getUserByMailPassword(login, md5Password);
 
         boolean validatePasswordRegex = validatePasswordRegex(password);

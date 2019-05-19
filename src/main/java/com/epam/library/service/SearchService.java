@@ -1,7 +1,7 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.BookDAO;
-import com.epam.library.dataBase.LanguageDAO;
+import com.epam.library.dataBase.impl.BookDAOImpl;
+import com.epam.library.dataBase.impl.LanguageDAOImpl;
 import com.epam.library.entity.Book;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +25,9 @@ public class SearchService implements Service {
         int countWordsSearch = argumentsLike.size();
         String requestDB = createRequest(countWordsSearch);
 
-        LanguageDAO languageDAO = new LanguageDAO();
+        LanguageDAOImpl languageDAO = new LanguageDAOImpl();
         int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
-        BookDAO bookDAO = new BookDAO();
+        BookDAOImpl bookDAO = new BookDAOImpl();
         List<Book> books = bookDAO.searchBook(argumentsLike, requestDB, idLanguage);
 
         session.setAttribute("list", books);

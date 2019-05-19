@@ -1,6 +1,6 @@
 package com.epam.library.service;
 
-import com.epam.library.dataBase.OrderDAO;
+import com.epam.library.dataBase.impl.OrderDAOImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +13,7 @@ public class ConfirmReceiptService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int idOrder = Integer.parseInt(request.getParameter("idOrder"));
         int idStatus = 5;
-        OrderDAO orderDAO = new OrderDAO();
+        OrderDAOImpl orderDAO = new OrderDAOImpl();
         orderDAO.changeStatus(idStatus, idOrder);
         ShowOrderService showOrderService = new ShowOrderService();
         showOrderService.execute(request, response);
