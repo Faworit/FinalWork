@@ -17,20 +17,23 @@ public class ChangePasswordService implements Service {
     RequestDispatcher dispatcher;
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        int idUser;
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+            SQLException {
+
+        HttpSession session = request.getSession(true);
+
         String newPass = request.getParameter("newPass");
         String repeatPassword = request.getParameter("repeatPassword");
-        String md5Password = DigestUtils.md5Hex(newPass);
-        UserDAO userDAO = new UserDAO();
-        HttpSession session = request.getSession(true);
-        idUser = (int) session.getAttribute("idUser");
         if(!RepeatPasswordValidator.isEqualPasswords(newPass, repeatPassword)){
             request.setAttribute("notEqual", "passwords not equals");
             dispatcher = request.getRequestDispatcher("changePassword.jsp");
             dispatcher.forward(request, response);
         } else{
+            String md5Password = DigestUtils.md5Hex(newPass);
+            int idUser = (int) session.getAttribute("idUser");
+            UserDAO userDAO = new UserDAO();
             userDAO.changePassword(md5Password, idUser);
+
             request.setAttribute("information", "password changed success");
             dispatcher = request.getRequestDispatcher("information.jsp");
             dispatcher.forward(request, response);

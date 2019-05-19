@@ -1,6 +1,7 @@
 package com.epam.library.service;
 
 import com.epam.library.dataBase.AuthorDAO;
+import com.epam.library.entity.Author;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,11 +18,11 @@ public class AddAuthorService implements Service {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-        boolean isExists;
         AuthorDAO authorDAO = new AuthorDAO();
-        isExists = authorDAO.isExist(name, surname);
+        boolean isExists = authorDAO.isExist(name, surname);
         if(!isExists){
-            authorDAO.setAuthor(name, surname);
+            Author author = createAuthor(name, surname);
+            authorDAO.create(author);
             ShowAddBookMenuService showAddBookMenuService = new ShowAddBookMenuService();
             showAddBookMenuService.execute(request, response);
         } else {
@@ -29,5 +30,12 @@ public class AddAuthorService implements Service {
             dispatcher = request.getRequestDispatcher("jsp/addAuthor.jsp");
             dispatcher.forward(request, response);
         }
+    }
+
+    private Author createAuthor(String name, String surname){
+        Author author = new Author();
+        author.setName(name);
+        author.setSurname(surname);
+        return author;
     }
 }

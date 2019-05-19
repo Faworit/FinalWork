@@ -10,24 +10,21 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class AddOrderService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-        int idBook;
-        int idUser;
-        Date todayDate = new Date();
-        Book book;
-        OrderDAO orderDAO = new OrderDAO();
-        BookDAO bookDAO = new BookDAO();
         HttpSession session = request.getSession(true);
-        book = GetBookService.getBookFromDB(request);
-        idBook = book.getID();
-        idUser = Integer.parseInt(String.valueOf(session.getAttribute("idUser")));
+
+        Book book = GetBookService.getBookFromDB(request);
+        int idBook = book.getId();
+        int idUser = Integer.parseInt(String.valueOf(session.getAttribute("idUser")));
+        Date todayDate = new Date();
+
+        OrderDAO orderDAO = new OrderDAO();
         orderDAO.createBooking(idBook, idUser, todayDate);
+        BookDAO bookDAO = new BookDAO();
         bookDAO.editByID(idBook, BookDAO.UPDATE_QUANTITY);
         ShowOrderService showOrderService = new ShowOrderService();
         showOrderService.execute(request, response);

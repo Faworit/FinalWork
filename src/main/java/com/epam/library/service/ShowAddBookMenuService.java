@@ -17,16 +17,15 @@ public class ShowAddBookMenuService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        int idLanguage;
-        List<Genre> genres;
-        List<Author> authors;
         HttpSession session = request.getSession(true);
+
         LanguageDAO languageDAO = new LanguageDAO();
         GenreDAO genreDAO = new GenreDAO();
         AuthorDAO authorDAO = new AuthorDAO();
-        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
-        genres = genreDAO.getAllGenres(idLanguage);
-        authors = authorDAO.getAllAuthors();
+        int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        List<Genre> genres = genreDAO.getAll(idLanguage);
+        List<Author> authors = authorDAO.getAllAuthors();
+
         session.setAttribute("list", genres);
         session.setAttribute("listAuthors", authors);
         response.sendRedirect("/jsp/addBook.jsp");

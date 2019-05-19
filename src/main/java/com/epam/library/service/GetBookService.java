@@ -11,14 +11,14 @@ import java.sql.SQLException;
 public class GetBookService {
 
      public static Book getBookFromDB(HttpServletRequest request) throws SQLException {
-         Book book;
+
          BookDAO bookDAO = new BookDAO();
          HttpSession session = request.getSession(true);
          int idBook = Integer.parseInt(request.getParameter("ID"));
          int idLanguage;
          LanguageDAO languageDAO = new LanguageDAO();
          idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
-         book = bookDAO.getBookByID(idBook, idLanguage);
+         Book book = bookDAO.getBookByID(idBook, idLanguage);
          return book;
      }
 }

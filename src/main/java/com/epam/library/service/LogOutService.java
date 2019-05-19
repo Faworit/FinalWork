@@ -8,6 +8,7 @@ import java.io.IOException;
 public class LogOutService implements Service {
 
     RequestDispatcher dispatcher;
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException{
         request.getSession().invalidate();

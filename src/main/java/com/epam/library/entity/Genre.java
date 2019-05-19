@@ -1,23 +1,15 @@
 package com.epam.library.entity;
 
-public class Genre {
+import java.util.Objects;
 
-    private int IDGenre;
+public class Genre extends Entity{
+
     private int IDLanguage;
     private String genreName;
 
-    public Genre(int IDGenre, int IDLanguage, String genreName) {
-        this.IDGenre = IDGenre;
+    public Genre(int IDLanguage, String genreName) {
         this.IDLanguage = IDLanguage;
         this.genreName = genreName;
-    }
-
-    public int getIDGenre() {
-        return IDGenre;
-    }
-
-    public void setIDGenre(int IDGenre) {
-        this.IDGenre = IDGenre;
     }
 
     public int getIDLanguage() {
@@ -39,9 +31,22 @@ public class Genre {
     @Override
     public String toString() {
         return "Genre{" +
-                "IDGenre=" + IDGenre +
-                ", IDLanguage=" + IDLanguage +
+                "IDLanguage=" + IDLanguage +
                 ", genreName='" + genreName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genre genre = (Genre) o;
+        return IDLanguage == genre.IDLanguage &&
+                Objects.equals(genreName, genre.genreName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(IDLanguage, genreName);
     }
 }

@@ -106,15 +106,15 @@
             <c:if test="${role eq 'librarian'}">
                 <td>
                     <form action="editBookMenu" method="get">
-                        <p><input type="hidden" name="ID" value="${books.ID}"></p>
+                        <p><input type="hidden" name="ID" value="${books.id}"></p>
                         <p><input type="submit" class="button" value="<fmt:message key="button.edit"/>"> </p>
                     </form>
                 </td>
             </c:if>
             <c:if test="${role eq 'reader'}">
                 <td>
-                    <form action="makeOrder" method="get">
-                        <p><input type="hidden" name="ID" value="${books.ID}"></p>
+                    <form action="makeOrder" method="post">
+                        <p><input type="hidden" name="ID" value="${books.id}"></p>
                         <p><input type="submit" value="<fmt:message key="button.orderBook"/>"></p>
                     </form>
                 </td>

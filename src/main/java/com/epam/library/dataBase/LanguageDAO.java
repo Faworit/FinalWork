@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-public class LanguageDAO {
+public class LanguageDAO implements CommonDAO{
 
-    public static final String GET_ID_LANGUAGE = "SELECT ID_LANGUAGE FROM LANGUAGE WHERE LANGUAGE=?";
+    private static final String GET_ID_LANGUAGE = "SELECT ID_LANGUAGE FROM LANGUAGE WHERE LANGUAGE=?";
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
@@ -23,5 +24,20 @@ public class LanguageDAO {
             }
         }
         return idLanguage;
+    }
+
+    @Override
+    public List getAll(int id){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void create(Object object){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void delete(int id){
+        throw new UnsupportedOperationException();
     }
 }

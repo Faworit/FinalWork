@@ -10,7 +10,7 @@ public class FilterLanguage implements Filter {
     public static final String ENGLISH = "ENG";
     public static final String RUSSIAN = "RU";
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -21,7 +21,8 @@ public class FilterLanguage implements Filter {
         HttpSession session = httpRequest.getSession();
 
         String language = servletRequest.getParameter("language");
-        if(servletRequest.getParameter("language")!=null){
+        String login = servletRequest.getParameter("login");
+        if(servletRequest.getParameter("language")!= null){
             if(language.equalsIgnoreCase(ENGLISH)){
                 session.setAttribute("language", ENGLISH);
             }

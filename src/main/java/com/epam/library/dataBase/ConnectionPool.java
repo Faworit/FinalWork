@@ -1,25 +1,28 @@
 package com.epam.library.dataBase;
 
 import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Properties;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
 
-    private static final Logger log = Logger.getLogger("ConnectionPool");
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private String url;
     private String user;
     private String password;
     private String driverDB;
-    private int maxConnection;
+    private Properties properties = getProperties("connectionPool.properties");
+    private final int maxConnection = Integer.parseInt(properties.getProperty("pool.maxConnection"));
     private static ConnectionPool instance = null;
-    private static ArrayList<Connection> freeConnections = new ArrayList<>();
+    private BlockingQueue<Connection> freeConnections = new ArrayBlockingQueue<>(maxConnection);
 
     private ConnectionPool() {
         init();
@@ -39,17 +42,15 @@ public class ConnectionPool {
     }
 
     private void setDataForConnection(){
-        Properties properties = getProperties("connectionPool.properties");
         this.url = properties.getProperty("pool.url");
         this.password = properties.getProperty("pool.password");
         this.user = properties.getProperty("pool.user");
         this.driverDB = properties.getProperty("pool.driver");
-        this.maxConnection = Integer.parseInt(properties.getProperty("pool.maxConnection"));
     }
 
-    public static Properties getProperties(String connection){
+    private Properties getProperties(String configurationFile){
         Properties properties = new Properties();
-        InputStream inputStream = ConnectionPool.class.getClassLoader().getResourceAsStream(connection);
+        InputStream inputStream = ConnectionPool.class.getClassLoader().getResourceAsStream(configurationFile);
         try {
             properties.load(inputStream);
         } catch (IOException e) {
@@ -74,45 +75,39 @@ public class ConnectionPool {
     }
 
     public synchronized Connection getConnection() {
-        Connection connection;
-        if (!freeConnections.isEmpty()) {
-            connection = freeConnections.get(freeConnections.size() - 1);
-            freeConnections.remove(connection);
-        } else {
-            connection = newConnection();
-        }
-        return connection;
-    }
-
-    private ArrayList<Connection> createConnections(){
-        if(freeConnections.size()<maxConnection){
-            newConnection();
-        }
-        return freeConnections;
-    }
-
-    private Connection newConnection() {
         Connection connection = null;
         try {
-            if (user == null) {
-                connection = DriverManager.
-                        getConnection(url);
-            } else {
-                connection = DriverManager.
-                        getConnection(url, user, password);
-            }
-
-        } catch (SQLException e) {
-            log.warn(e);
+            connection = freeConnections.take();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return connection;
     }
 
-    public synchronized void returnConnection(Connection connection){
-        if ( (connection != null) && (freeConnections.size()<= maxConnection)) {
-            freeConnections.add(connection);
+    private BlockingQueue<Connection> createConnections(){
+        Connection connection;
+        while(freeConnections.size() < maxConnection){
+            try {
+                connection = DriverManager.getConnection(url, user, password);
+                freeConnections.put(connection);
+            } catch (InterruptedException e) {
+                log.warn(e);
+                e.printStackTrace();
+            } catch (SQLException e) {
+                log.warn(e);
+                e.printStackTrace();
+            }
         }
+        return freeConnections;
     }
 
+    public synchronized void returnConnection(Connection connection){
+        if ( (connection != null) && (freeConnections.size()<= maxConnection)) {
+            try {
+                freeConnections.put(connection);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

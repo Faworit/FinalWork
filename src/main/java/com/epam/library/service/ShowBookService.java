@@ -15,13 +15,13 @@ public class ShowBookService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        int idLanguage;
-        List<Book> books;
         HttpSession session = request.getSession(true);
-        BookDAO bookDAO = new BookDAO();
+
         LanguageDAO languageDAO = new LanguageDAO();
-        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
-        books = bookDAO.getBook(idLanguage);
+        BookDAO bookDAO = new BookDAO();
+        int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        List<Book> books = bookDAO.getAll(idLanguage);
+
         session.setAttribute("list", books);
         response.sendRedirect("jsp/user.jsp");
     }

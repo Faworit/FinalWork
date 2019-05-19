@@ -27,18 +27,18 @@
     </div>
     <div class="changeLanguage">
         <form action="/showAddBookMenu" method="get">
-            <input type="hidden" name="jspname" value="jsp/creatingBook.jsp"/>
+            <input type="hidden" name="direction" value="jsp/creatingBook.jsp"/>
             <input type="submit" class="button" name="language" value="RU">
             <input type="submit" class="button" name="language" value="ENG" >
         </form>
     </div>
 </div>
 <div class="menu1">
-    <form action="forward" method="get">
+    <form action="forward" method="post">
         <input type="hidden" name="direction" value="addGenre.jsp">
         <input type="submit" class="button" value="<fmt:message key="button.addGenre"/>">
     </form>
-    <form action="forward" method="get">
+    <form action="forward" method="post">
         <input type="hidden" name="direction" value="addAuthor.jsp">
         <input type="submit" class="button" value="<fmt:message key="button.addAuthor"/>">
     </form>
@@ -50,7 +50,7 @@
     </form>
 </div>
 
-<form action="createBook" method="get">
+<form action="createBook" method="post">
     <table>
         <tr>
             <td><fmt:message key="key.titleRU"/>*</td>

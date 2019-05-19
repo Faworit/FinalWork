@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatusDAO {
+public class StatusDAO implements CommonDAO{
 
-    public static final String GET_STATE_NAME = "SELECT NAME FROM STATE WHERE ID_LANGUAGE=? AND NAME!='выдан' AND NAME!='issued'";
-    public static final String GET_STATUS_ID_BY_NAME = "SELECT ID_STATE FROM STATE WHERE NAME=?";
+    private static final String GET_STATE_NAME = "SELECT NAME FROM STATE WHERE ID_LANGUAGE=? AND NAME!='выдан' AND NAME!='issued'";
+    private static final String GET_STATUS_ID_BY_NAME = "SELECT ID_STATE FROM STATE WHERE NAME=?";
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
@@ -44,5 +44,20 @@ public class StatusDAO {
             connectionPool.returnConnection(connection);
         }
         return idStatus;
+    }
+
+    @Override
+    public List getAll(int id){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void create(Object object){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void delete(int id){
+        throw new UnsupportedOperationException();
     }
 }

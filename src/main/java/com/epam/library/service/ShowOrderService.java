@@ -15,23 +15,24 @@ public class ShowOrderService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        int idLanguage;
-        int idUser;
-        String role;
-        List<Order> bookings;
         HttpSession session = request.getSession(true);
-        idUser = (int) session.getAttribute("idUser");
-        role = (String) session.getAttribute("role");
+
+        String role = (String) session.getAttribute("role");
         LanguageDAO languageDAO = new LanguageDAO();
+        int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+
         OrderDAO orderDAO = new OrderDAO();
-        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        List<Order> bookings;
         if(role.equals("reader")){
+            int idUser = (int) session.getAttribute("idUser");
             bookings = orderDAO.getPersonalOrders(idLanguage, idUser);
+
             session.setAttribute("list", bookings);
             response.sendRedirect("orders.jsp");
         }
         if(role.equals("librarian")){
-            bookings = orderDAO.getAllOrders(idLanguage);
+            bookings = orderDAO.getAll(idLanguage);
+
             session.setAttribute("list", bookings);
             response.sendRedirect("orders.jsp");
         }

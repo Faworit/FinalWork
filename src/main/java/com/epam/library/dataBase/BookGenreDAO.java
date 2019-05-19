@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class BookGenreDAO {
+public class BookGenreDAO implements CommonDAO{
 
-    public static final String ADD_DATA_TO_BOOK2GENRE = "INSERT INTO BOOK2GENRE (ID_BOOK, ID_LANGUAGE, ID_GENRE) " +
+    private static final String ADD_DATA_TO_BOOK2GENRE = "INSERT INTO BOOK2GENRE (ID_BOOK, ID_LANGUAGE, ID_GENRE) " +
             "select book.id_book, book.id_language, genre.id_genre from book, genre where book.id_book=? and" +
             " book.id_language=? and genre.genre_name=?";
     private ConnectionPool connectionPool;
@@ -27,5 +27,20 @@ public class BookGenreDAO {
                 connectionPool.returnConnection(connection);
             }
         }
+    }
+
+    @Override
+    public List getAll(int id){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void create(Object object){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void delete(int id){
+        throw new UnsupportedOperationException();
     }
 }

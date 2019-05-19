@@ -11,11 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.TimeZone;
 
 public class LibraryController extends HttpServlet {
 
     private static long serialVersionUID = 1L;
-    private static final Logger log = Logger.getLogger("UserDAO");
+    private final Logger log = Logger.getLogger(this.getClass().getName());
 
     public LibraryController(){
         super();
@@ -31,7 +32,7 @@ public class LibraryController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType ("text/html; charset=UTF-8");
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         String s = request.getRequestURI();
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         Service service = serviceFactory.getService(s);

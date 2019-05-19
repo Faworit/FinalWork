@@ -30,7 +30,6 @@
             <input type="submit" class="button" name="language" value="ENG" >
             <input type="submit" class="button" name="language" value="RU">
         </form>
-
     </div>
 </div>
 <div class="menu1">
@@ -41,7 +40,7 @@
         <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
     </form>
 </div>
-<form action="createUser" method="get">
+<form action="createUser" method="post">
     <table>
         <tr>
             <td><fmt:message key="key.password"/>*

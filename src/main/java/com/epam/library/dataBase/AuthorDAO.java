@@ -2,7 +2,6 @@ package com.epam.library.dataBase;
 
 import com.epam.library.entity.Author;
 import com.epam.library.factory.AuthorFactory;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,15 +10,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthorDAO {
+public class AuthorDAO implements CommonDAO{
 
-    public static final String EDIT_AUTHOR = "UPDATE AUTHOR SET SURNAME=?, NAME=? WHERE ID_AUTHOR=?";
-    public static final String GET_AUTOR = "SELECT A.ID_AUTHOR, A.SURNAME, A.NAME FROM BOOK B, AUTHOR A, BOOK2AUTHOR BA " +
+    private static final String EDIT_AUTHOR = "UPDATE AUTHOR SET SURNAME=?, NAME=? WHERE ID_AUTHOR=?";
+    private static final String GET_AUTOR = "SELECT A.ID_AUTHOR, A.SURNAME, A.NAME FROM BOOK B, AUTHOR A, BOOK2AUTHOR BA " +
             "WHERE B.ID_BOOK=BA.ID_BOOK AND A.ID_AUTHOR=BA.ID_AUTHOR AND B.ID_BOOK=? AND B.ID_LANGUAGE=?;";
-    public static final String GET_ALL_AUTHOR = "SELECT NAME, SURNAME, ID_AUTHOR FROM AUTHOR";
-    public static final String GET_AUTHOR_BY_NAME_SURNAME = "SELECT NAME, SURNAME FROM AUTHOR WHERE NAME = ? AND SURNAME = ?";
-    public static final String ADD_AUTHOR = "INSERT INTO AUTHOR (SURNAME, NAME) VALUES (?, ?)";
-    public static final String GET_ID_AUTHOR = "SELECT ID_AUTHOR FROM AUTHOR WHERE NAME = ? AND SURNAME = ?";
+    private static final String GET_ALL_AUTHOR = "SELECT NAME, SURNAME, ID_AUTHOR FROM AUTHOR";
+    private static final String GET_AUTHOR_BY_NAME_SURNAME = "SELECT NAME, SURNAME FROM AUTHOR WHERE NAME = ? AND SURNAME = ?";
+    private static final String ADD_AUTHOR = "INSERT INTO AUTHOR (SURNAME, NAME) VALUES (?, ?)";
+    private static final String GET_ID_AUTHOR = "SELECT ID_AUTHOR FROM AUTHOR WHERE NAME = ? AND SURNAME = ?";
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
@@ -43,13 +42,12 @@ public class AuthorDAO {
 
     public List<Author> getAllAuthors() throws SQLException {
         List<Author> authors = new ArrayList<>();
-        Author author;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_AUTHOR)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                author = AuthorFactory.createAuthor(resultSet);
+                Author author = AuthorFactory.createAuthor(resultSet);
                 authors.add(author);
             }
         }
@@ -57,19 +55,6 @@ public class AuthorDAO {
             connectionPool.returnConnection(connection);
         }
         return authors;
-    }
-
-    public void setAuthor(String name, String surname) throws SQLException {
-        connectionPool = ConnectionPool.getInstance();
-        connection = connectionPool.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_AUTHOR)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, surname);
-            preparedStatement.executeUpdate();
-        }
-        finally {
-            connectionPool.returnConnection(connection);
-        }
     }
 
     public boolean isExist(String name, String surname) throws SQLException {
@@ -92,7 +77,6 @@ public class AuthorDAO {
 
     public List<Author> getAuthor(int IDBook, int language) throws SQLException {
         List<Author> authors = new ArrayList<>();
-        Author author;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(GET_AUTOR)) {
@@ -100,7 +84,7 @@ public class AuthorDAO {
             preparedStatement.setInt(2, language);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                author = AuthorFactory.createAuthor(resultSet);
+                Author author = AuthorFactory.createAuthor(resultSet);
                 authors.add(author);
             }
         }
@@ -122,5 +106,31 @@ public class AuthorDAO {
         finally {
             connectionPool.returnConnection(connection);
         }
+    }
+
+    @Override
+    public List getAll(int id){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void create(Object object) throws SQLException {
+        Author author = (Author) object;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_AUTHOR)) {
+            preparedStatement.setString(1, author.getName());
+            preparedStatement.setString(2, author.getSurname());
+            preparedStatement.executeUpdate();
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+
+    }
+
+    @Override
+    public void delete(int id) {
+        throw new UnsupportedOperationException();
     }
 }

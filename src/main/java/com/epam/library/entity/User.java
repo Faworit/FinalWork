@@ -1,10 +1,10 @@
 package com.epam.library.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
-public class User {
+public class User extends Entity{
 
-    private int IDUser;
     private String password;
     private String name;
     private String surname;
@@ -13,14 +13,6 @@ public class User {
     private String telephone;
     private String block;
     private String role;
-
-    public int getIDUser() {
-        return IDUser;
-    }
-
-    public void setIDUser(int IDUser) {
-        this.IDUser = IDUser;
-    }
 
     public String getPassword() {
         return password;
@@ -89,7 +81,6 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "IDUser=" + IDUser +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
@@ -99,5 +90,25 @@ public class User {
                 ", block='" + block + '\'' +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(password, user.password) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(birthDay, user.birthDay) &&
+                Objects.equals(mail, user.mail) &&
+                Objects.equals(telephone, user.telephone) &&
+                Objects.equals(block, user.block) &&
+                Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(password, name, surname, birthDay, mail, telephone, block, role);
     }
 }

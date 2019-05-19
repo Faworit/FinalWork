@@ -20,17 +20,17 @@ public class ShowBookingByStatusService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        int idLanguage;
-        int idStatus;
-        String status = request.getParameter("status");
-        List<Order> bookings;
         HttpSession session = request.getSession(true);
+
+        String status = request.getParameter("status");
+        LanguageDAO languageDAO = new LanguageDAO();
         OrderDAO orderDAO = new OrderDAO();
         StatusDAO statusDAO = new StatusDAO();
-        LanguageDAO languageDAO = new LanguageDAO();
-        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
-        idStatus = statusDAO.getStatusID(status);
-        bookings = orderDAO.getNewOrders(idLanguage, idStatus);
+
+        int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        int idStatus = statusDAO.getStatusID(status);
+        List<Order> bookings = orderDAO.getNewOrders(idLanguage, idStatus);
+
         session.setAttribute("list", bookings);
         dispatcher = request.getRequestDispatcher("orders.jsp");
         dispatcher.forward(request, response);

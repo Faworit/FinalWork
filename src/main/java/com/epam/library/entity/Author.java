@@ -1,27 +1,19 @@
 package com.epam.library.entity;
 
-public class Author {
+import java.util.Objects;
 
-    private int IDAuthor;
+public class Author extends Entity {
+
     private String name;
     private String surname;
 
-    public Author(int IDAuthor, String name, String surname) {
-        this.IDAuthor = IDAuthor;
+    public Author(String name, String surname) {
         this.name = name;
         this.surname = surname;
     }
 
     public Author(){
 
-    }
-
-    public int getIDAuthor() {
-        return IDAuthor;
-    }
-
-    public void setIDAuthor(int IDAuthor) {
-        this.IDAuthor = IDAuthor;
     }
 
     public String getName() {
@@ -43,9 +35,23 @@ public class Author {
     @Override
     public String toString() {
         return "Author{" +
-                "IDAuthor=" + IDAuthor +
+                "IDAuthor=" + getId() +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(name, author.name) &&
+                Objects.equals(surname, author.surname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname);
     }
 }

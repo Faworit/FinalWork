@@ -39,7 +39,7 @@
     </form>
 
     <form action="removeBook" method="get">
-        <input type="hidden" name="ID" value="${book.ID}">
+        <input type="hidden" name="ID" value="${book.id}">
         <button class="buttonDel" onclick="clicked(event)"><fmt:message key="button.delete"/></button>
         <script>
             function clicked(e)
@@ -51,7 +51,7 @@
 </div>
 
 
-<form action="editBook" method="get">
+<form action="editBook" method="post">
     <table border="1">
         <tr>
             <td><fmt:message key="key.title"/></td>
@@ -60,7 +60,7 @@
         <tr>
             <td><fmt:message key="key.genre"/></td>
             <td><c:forEach var="genre" items="${book.geners}">
-                <input type="hidden" name="idGenre" value="${genre.IDGenre}">
+                <input type="hidden" name="idGenre" value="${genre.id}">
                 <input type="text" name="genre" required value="${genre.genreName}">
                 <br>
             </c:forEach>
@@ -69,7 +69,7 @@
         <tr>
             <td><fmt:message key="key.author"/></td>
             <td><c:forEach var="author" items="${book.authors}">
-                <input type="hidden" name="idAuthor" value="${author.IDAuthor}">
+                <input type="hidden" name="idAuthor" value="${author.id}">
                 <input type="text" name="name"  value="${author.name}">
                 <input type="text" name="surname"  value="${author.surname}">
                 <br>
@@ -86,14 +86,11 @@
         </tr>
         <tr>
             <td>
-                <input type="hidden" name="ID" value="${book.ID}">
+                <input type="hidden" name="ID" value="${book.id}">
                 <input type="submit" class="button" value="<fmt:message key="button.apply"/>">
             </td>
         </tr>
     </table>
 </form>
-
-
-
 </body>
 </html>

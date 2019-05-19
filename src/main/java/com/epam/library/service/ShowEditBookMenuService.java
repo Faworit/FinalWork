@@ -16,8 +16,9 @@ public class ShowEditBookMenuService implements Service {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         HttpSession session = request.getSession(true);
-        Book book;
-        book = GetBookService.getBookFromDB(request);
+
+        Book book = GetBookService.getBookFromDB(request);
+
         session.setAttribute("book", book);
         response.sendRedirect("editBook.jsp");
     }

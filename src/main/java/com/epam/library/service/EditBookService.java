@@ -17,31 +17,32 @@ public class EditBookService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        int idBook = Integer.parseInt(request.getParameter("ID"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-        int idAuthor = Integer.parseInt(request.getParameter("idAuthor"));
-        int idLanguage;
-        String[] idGenres = request.getParameterValues("idGenre");
+        HttpSession session = request.getSession(true);
+
+        BookDAO bookDAO = new BookDAO();
+        LanguageDAO languageDAO = new LanguageDAO();
         String title = request.getParameter("title");
-        String[] genres = request.getParameterValues("genre");
+        String ISBN = request.getParameter("ISBN");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        int idBook = Integer.parseInt(request.getParameter("ID"));
+        int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        bookDAO.editBook(title, ISBN, quantity, idBook, idLanguage);
+
         String[] authorNames = request.getParameterValues("name");
         String[] authorSurnames = request.getParameterValues("surname");
-        String ISBN = request.getParameter("ISBN");
-        List<Integer> idGenreConvert = convertFromString(idGenres);
-        BookDAO bookDAO = new BookDAO();
-        AuthorDAO authorDAO = new AuthorDAO();
-        GenreDAO genreDAO = new GenreDAO();
-        LanguageDAO languageDAO = new LanguageDAO();
-        HttpSession session = request.getSession(true);
-        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
-        bookDAO.editBook(title, ISBN, quantity, idBook, idLanguage);
         for (int i = 0; i < authorNames.length; i++) {
+            AuthorDAO authorDAO = new AuthorDAO();
+            int idAuthor = Integer.parseInt(request.getParameter("idAuthor"));
             authorDAO.editAuthor(authorNames[i], authorSurnames[i], idAuthor);
         }
+
+        String[] genres = request.getParameterValues("genre");
         for (int i = 0; i < genres.length; i++) {
+            GenreDAO genreDAO = new GenreDAO();
+            String[] idGenres = request.getParameterValues("idGenre");
+            List<Integer> idGenreConvert = convertFromString(idGenres);
             genreDAO.setEditGenre(idGenreConvert.get(i), idLanguage, genres[i]);
         }
-
         response.sendRedirect("/jsp/user.jsp");
     }
 
@@ -53,4 +54,6 @@ public class EditBookService implements Service {
         }
         return ID;
     }
+
+
 }

@@ -8,11 +8,11 @@ import java.sql.SQLException;
 public class AuthorFactory {
 
     public static Author createAuthor(ResultSet resultSet) throws SQLException {
-        int IDAutor = resultSet.getInt("ID_AUTHOR");
+        int IDAuthor = resultSet.getInt("ID_AUTHOR");
         String surName = resultSet.getString("surname");
         String name = resultSet.getString("name");
-        Author author;
-        author = new Author(IDAutor, name, surName);
+        Author author = new Author(name, surName);
+        author.setId(IDAuthor);
         return author;
     }
 }

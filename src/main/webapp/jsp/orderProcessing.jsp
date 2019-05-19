@@ -56,9 +56,9 @@
             <td><fmt:message key="key.action"/></td>
         </c:if>
     </tr>
-    <form action="editBooking" method="get">
+    <form action="editBooking" method="post">
         <tr>
-            <td>${booking.orderID}</td>
+            <td>${booking.id}</td>
             <td>${booking.bookTitle}</td>
             <td>
                 <c:if test="${empty booking.orderDate}">

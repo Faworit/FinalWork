@@ -12,26 +12,25 @@ import java.util.List;
 
 public class BookFactory {
 
-    public static Book createBook(ResultSet resultSet, int language) {
-        List<Author> authors;
-        List<Genre> genres;
-        Book book = null;
+    public static Book createBook(ResultSet resultSet, int language) throws SQLException {
+        int IDBook = resultSet.getInt("ID_BOOK");
+
         AuthorDAO authorDAO = new AuthorDAO();
-        try {
-            int IDBook = resultSet.getInt("ID_BOOK");
-            int languageID = resultSet.getInt("ID_LANGUAGE");
-            String title = resultSet.getString("TITLE");
-            book = new Book(title, languageID, IDBook);
-            book.setISBN(resultSet.getString("ISBN"));
-            book.setQuantity(resultSet.getInt("QUANTITY"));
-            authors = authorDAO.getAuthor(IDBook, language);
-            book.setAuthors(authors);
-            GenreDAO genreDAO = new GenreDAO();
-            genres = genreDAO.getGenre(IDBook, language);
-            book.setGeners(genres);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<Author> authors = authorDAO.getAuthor(IDBook, language);
+        GenreDAO genreDAO = new GenreDAO();
+        List<Genre> genres = genreDAO.getGenre(IDBook, language);
+
+        Book book = new Book();
+        book.setTitle(resultSet.getString("TITLE"));
+        book.setLanguageID(resultSet.getInt("ID_LANGUAGE"));
+        book.setId(IDBook);
+        book.setISBN(resultSet.getString("ISBN"));
+        book.setQuantity(resultSet.getInt("QUANTITY"));
+
+
+        book.setAuthors(authors);
+        book.setGeners(genres);
+
         return book;
     }
 }

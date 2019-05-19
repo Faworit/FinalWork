@@ -30,6 +30,8 @@ public class ServiceFactory {
         MAP_OF_SERVICE.put("/jsp/showAddBookMenu", new ShowAddBookMenuService());
         MAP_OF_SERVICE.put("/showBook", new ShowBookService());
         MAP_OF_SERVICE.put("/jsp/showOrder", new ShowOrderService());
+        MAP_OF_SERVICE.put("/forward", new ForwardService());
+        MAP_OF_SERVICE.put("error", new ErrorServise());
     }
 
     public static ServiceFactory getInstance(){
@@ -37,6 +39,9 @@ public class ServiceFactory {
     }
 
     public Service getService(String request){
+        if(MAP_OF_SERVICE.get(request) == null){
+            return MAP_OF_SERVICE.get("error");
+        }
         return MAP_OF_SERVICE.get(request);
     }
 }

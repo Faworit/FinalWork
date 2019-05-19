@@ -1,10 +1,10 @@
 package com.epam.library.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
-public class Order {
+public class Order extends Entity{
 
-    private int orderID;
     private String bookTitle;
     private String state;
     private Date orderDate;
@@ -36,14 +36,6 @@ public class Order {
 
     public void setLibrarian(User librarian) {
         this.librarian = librarian;
-    }
-
-    public int getOrderID() {
-        return orderID;
-    }
-
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
     }
 
     public String getBookTitle() {
@@ -89,7 +81,6 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "orderID=" + orderID +
                 ", bookTitle='" + bookTitle + '\'' +
                 ", state='" + state + '\'' +
                 ", orderDate=" + orderDate +
@@ -98,5 +89,25 @@ public class Order {
                 ", reader=" + reader +
                 ", librarian=" + librarian +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(bookTitle, order.bookTitle) &&
+                Objects.equals(state, order.state) &&
+                Objects.equals(orderDate, order.orderDate) &&
+                Objects.equals(acceptedDate, order.acceptedDate) &&
+                Objects.equals(returnDate, order.returnDate) &&
+                Objects.equals(actuallyReturn, order.actuallyReturn) &&
+                Objects.equals(reader, order.reader) &&
+                Objects.equals(librarian, order.librarian);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookTitle, state, orderDate, acceptedDate, returnDate, actuallyReturn, reader, librarian);
     }
 }

@@ -80,7 +80,7 @@
     </tr>
     <c:forEach var="booking" items="${list}">
         <tr>
-            <td>${booking.orderID}</td>
+            <td>${booking.id}</td>
             <td>${booking.bookTitle}</td>
             <td>${booking.orderDate}</td>
             <td>${booking.acceptedDate}</td>
@@ -104,7 +104,7 @@
             <td>
                 <form action="perform" method="get">
                     <input type="hidden" name="userName" value="${booking.librarian.name}">
-                    <input type="hidden" name="idOrder" value="${booking.orderID}">
+                    <input type="hidden" name="idOrder" value="${booking.id}">
                     <input type="submit" class="button" value="<fmt:message key="button.perform"/>">
                 </form>
             </td>
@@ -112,7 +112,7 @@
             <c:if test="${booking.state eq'in progress' || booking.state eq'в процессе' && role eq 'reader'}">
                 <td>
                     <form action="confirm" method="get">
-                        <input type="hidden" name="idOrder" value="${booking.orderID}">
+                        <input type="hidden" name="idOrder" value="${booking.id}">
                         <input type="submit" class="button" value="<fmt:message key="button.confirmReceipt"/>">
                     </form>
                 </td>

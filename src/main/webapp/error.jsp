@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
-<html>
+
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="language"/>
 <html lang="${language}">
@@ -21,12 +21,10 @@
 <body>
 <div class="login">
     <p class="photo"> <img src = "/css/img/error.jpg" width="600" height="500"/></p>
-    <form action="forward" method="get">
-        <input type="hidden" name="direction" value="/jsp/user.jsp" />
+    <form action="/jsp/forward" method="get">
+        <input type="hidden" name="direction" value="index.jsp" />
         <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
     </form>
 </div>
-
-
 </body>
 </html>

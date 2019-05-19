@@ -22,15 +22,10 @@
     </form>
 </div>
 <div class="changeLanguage">
-    <form action="forward" method="get">
-        <input type="hidden" name="direction" value="index.jsp" />
+    <form action="/forward" method="get">
+        <input type="hidden" name="direction" value="index.jsp">
         <input type="submit" class="button" name="language" value="RU">
         <input type="submit" class="button" name="language" value="ENG">
-    </form>
-
-    <form action="forward" method="get">
-        <input type="hidden" name="direction" value="index.jsp"/>
-
     </form>
 </div>
 </body>

@@ -39,7 +39,7 @@
         <input type="submit" class="button" value="<fmt:message key="button.mainPage"/>">
     </form>
 </div>
-<form action="addAuthor" method="get">
+<form action="addAuthor" method="post">
     <table>
         <tr>
             <td><fmt:message key="key.authorName"/>*</td>

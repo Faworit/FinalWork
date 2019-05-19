@@ -17,47 +17,42 @@ public class SearchService implements Service {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        int idLanguage;
-        int countWordsSearch;
-        String requestDB;
-        String requestSearch;
-        List<Book> books;
-        List<String> argumentsLike;
-        BookDAO bookDAO = new BookDAO();
-        LanguageDAO languageDAO = new LanguageDAO();
         HttpSession session = request.getSession(true);
-        idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
-        requestSearch = request.getParameter("search");
-        argumentsLike = createArgumentLike(requestSearch);
-        countWordsSearch = argumentsLike.size();
-        requestDB = createRequest(countWordsSearch);
-        books = bookDAO.searchBook(argumentsLike, requestDB, idLanguage);
+
+        String requestSearch = request.getParameter("search");
+        List<String> argumentsLike = createArgumentLike(requestSearch);
+
+        int countWordsSearch = argumentsLike.size();
+        String requestDB = createRequest(countWordsSearch);
+
+        LanguageDAO languageDAO = new LanguageDAO();
+        int idLanguage = languageDAO.getIdLanguage(String.valueOf(session.getAttribute("language")));
+        BookDAO bookDAO = new BookDAO();
+        List<Book> books = bookDAO.searchBook(argumentsLike, requestDB, idLanguage);
+
         session.setAttribute("list", books);
         response.sendRedirect("jsp/user.jsp");
     }
 
     private List<String> createArgumentLike(String requestSearch){
-        String argument;
-        String afterRemovePunctuation;
-        String[] wordsArray;
-        ArrayList<String> wordsSearch;
         List<String> argumentsLike = new ArrayList<>();
-        afterRemovePunctuation = requestSearch.replaceAll("[^а-яА-Яa-zA-Z]", " ").replaceAll("\\s+", " ");
-        wordsArray = afterRemovePunctuation.split(" ");
-        wordsSearch = new ArrayList<>(Arrays.asList(wordsArray));
+        String afterRemovePunctuation = requestSearch.replaceAll("[^а-яА-Яa-zA-Z]", " ").replaceAll("\\s+", " ");
+        String[] wordsArray = afterRemovePunctuation.split(" ");
+        ArrayList<String> wordsSearch = new ArrayList<>(Arrays.asList(wordsArray));
+
         StringBuilder stringBuilder;
         for (int i = 0; i < wordsSearch.size(); i++) {
             stringBuilder = new StringBuilder("%%");
             stringBuilder.insert(1, wordsSearch.get(i));
-            argument = stringBuilder.toString();
+            String argument = stringBuilder.toString();
             argumentsLike.add(argument);
         }
-
         return argumentsLike;
     }
 
     private static String createRequest(int countWordsSearch){
-        String firstPartOfRequest = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE ID_LANGUAGE=? AND TITLE LIKE ?"; //select ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY from book where title like '%java%'
+        String firstPartOfRequest = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE ID_LANGUAGE=? " +
+                "AND TITLE LIKE ?";
         String partToInsert = " OR TITLE LIKE ?";
         String requestToDB;
         if(countWordsSearch>1) {

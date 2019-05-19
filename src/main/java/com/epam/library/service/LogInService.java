@@ -16,32 +16,29 @@ import static com.epam.library.validator.AuthorizationValidator.*;
 
 public class LogInService implements Service {
 
+    RequestDispatcher dispatcher;
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        RequestDispatcher dispatcher;
-        int idUser;
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+            SQLException {
+
+        HttpSession session = request.getSession(true);
+
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        String name;
-        String surname;
-        String role;
-        boolean validateLoginRegex;
-        boolean validatePasswordRegex;
-        boolean isBlock;
-        User user;
-        UserDAO userDAO = new UserDAO();
-        validateLoginRegex = validateMailRegex(login);
-        validatePasswordRegex = validatePasswordRegex(password);
         String md5Password = DigestUtils.md5Hex(password);
-        user = userDAO.getUserByMailPassword(login, md5Password);
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByMailPassword(login, md5Password);
+
+        boolean validatePasswordRegex = validatePasswordRegex(password);
+        boolean validateLoginRegex = validateMailRegex(login);
         if(validateLoginRegex && validatePasswordRegex && user!=null){
-            isBlock = validateBlock(user);
+            boolean isBlock = validateBlock(user);
             if(isBlock){
-                HttpSession session = request.getSession(true);
-                name = user.getName();
-                surname = user.getSurname();
-                role = user.getRole();
-                idUser = user.getIDUser();
+                String name = user.getName();
+                String surname = user.getSurname();
+                String role = user.getRole();
+                int idUser = user.getId();
                 session.setAttribute("idUser", idUser);
                 session.setAttribute("role", role);
                 session.setAttribute("name", name);

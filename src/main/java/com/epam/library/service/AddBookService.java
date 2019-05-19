@@ -3,6 +3,7 @@ package com.epam.library.service;
 import com.epam.library.dataBase.AuthorDAO;
 import com.epam.library.dataBase.BookDAO;
 import com.epam.library.dataBase.BookGenreDAO;
+import com.epam.library.entity.Book;
 import com.epam.library.validator.BookValidator;
 
 import javax.servlet.RequestDispatcher;
@@ -11,41 +12,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddBookService implements Service {
 
+    RequestDispatcher dispatcher;
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        RequestDispatcher dispatcher;
-        boolean isAvailableBook;
-        int idBook;
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-        String titleRU = request.getParameter("titleRU");
-        String titleENG = request.getParameter("titleENG");
-        String ISBN = request.getParameter("ISBN");
         String genre = request.getParameter("genre");
-        String authorFromJSP = request.getParameter("author");
-        System.out.println(authorFromJSP);
-        List<Integer> idAuthors = getIDAuthors(authorFromJSP);
-        BookDAO bookDAO = new BookDAO();
-        BookGenreDAO bookGenreDAO = new BookGenreDAO();
-        idBook = bookDAO.getLastIdBook()+1;
         List<String> genres = parseGenreRequest(genre);
-        isAvailableBook = BookValidator.checkBook(ISBN);
+
+        String ISBN = request.getParameter("ISBN");
+        boolean isAvailableBook = BookValidator.checkBook(ISBN);
         if(isAvailableBook){
             request.setAttribute("alreadyExists", "This book is already exists");
             dispatcher = request.getRequestDispatcher("addBook.jsp");
             dispatcher.forward(request, response);
         } else{
-            bookDAO.addBook(idBook, 1, ISBN, quantity, titleRU);
-            bookDAO.addBook(idBook, 2, ISBN, quantity, titleENG);
+            BookDAO bookDAO = new BookDAO();
+            int idBook = bookDAO.getLastIdBook()+1;
+            List<Book> books = createBook(request, ISBN, idBook);
+            for (int i = 0; i < books.size(); i++) {
+                Book book = books.get(i);
+                bookDAO.create(book);
+            }
+            BookGenreDAO bookGenreDAO = new BookGenreDAO();
             bookGenreDAO.addData(idBook,1,genres);
             bookGenreDAO.addData(idBook,2,genres);
+            String authorFromJSP = request.getParameter("author");
+            List<Integer> idAuthors = getIDAuthors(authorFromJSP);
             for (int i = 0; i < idAuthors.size(); i++) {
                 bookDAO.setIntoBook2Author(idBook, idAuthors.get(i));
             }
@@ -53,6 +51,29 @@ public class AddBookService implements Service {
             dispatcher = request.getRequestDispatcher("information.jsp");
             dispatcher.forward(request, response);
         }
+    }
+
+    private List<Book> createBook(HttpServletRequest request, String ISBN, int idBook){
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        List<Book> books = new ArrayList<>();
+        HashMap<String, Integer> titles = getTitles(request);
+        for(Map.Entry<String, Integer> item : titles.entrySet()){
+            Book book = new Book();
+            book.setId(idBook);
+            book.setTitle(item.getKey());
+            book.setLanguageID(item.getValue());
+            book.setISBN(ISBN);
+            book.setQuantity(quantity);
+            books.add(book);
+        }
+        return books;
+    }
+
+    private HashMap<String, Integer> getTitles(HttpServletRequest request){
+        HashMap<String, Integer> titles = new HashMap<>();
+        titles.put(request.getParameter("titleRU"), 1);
+        titles.put(request.getParameter("titleENG"),2);
+        return titles;
     }
 
     private List<String> parseGenreRequest(String genre){
@@ -67,17 +88,12 @@ public class AddBookService implements Service {
         List<Integer> idAuthors = new ArrayList<>();
         AuthorDAO authorDAO = new AuthorDAO();
         for (int i = 0; i < namesSurnames.size(); i++) {
-            System.out.println(namesSurnames.get(i));
-            System.out.println("sefse");
-            int idAuthor;
-            String name;
-            String surname;
             Matcher matcher = Pattern.compile("[^\\s{1}]+").matcher(namesSurnames.get(i));
             matcher.find();
-            name = matcher.group();
+            String name = matcher.group();
             matcher.find();
-            surname = matcher.group();
-            idAuthor = authorDAO.getID(name, surname);
+            String surname = matcher.group();
+            int idAuthor = authorDAO.getID(name, surname);
             idAuthors.add(idAuthor);
         }
         return  idAuthors;
