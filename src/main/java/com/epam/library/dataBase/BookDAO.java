@@ -10,21 +10,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDAO {
+public class BookDAO implements CommonDAO {
 
-    public static final String GET_FROM_BOOK_TABLE = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY " +
+    private static final String GET_FROM_BOOK_TABLE = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY " +
             "FROM BOOK WHERE ID_LANGUAGE =?";
-    public static final String ADD_BOOK = "INSERT INTO BOOK (ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY) " +
-            "VALUES (?, ?, ?, ?, ?)";
-    public static final String CHECK_BOOK_BY_ISBN = "SELECT ISBN FROM BOOK WHERE ISBN=?";
-    public static final String GET_BOOK_BY_ID = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE " +
+    private static final String CHECK_BOOK_BY_ISBN = "SELECT ISBN FROM BOOK WHERE ISBN=?";
+    private static final String GET_BOOK_BY_ID = "SELECT ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY FROM BOOK WHERE " +
             "ID_LANGUAGE=? AND ID_BOOK=?";
-    public static final String EDIT_BOOK = "UPDATE book SET TITLE = ?, ISBN = ?, QUANTITY = ? WHERE (ID_BOOK = ?) " +
+    private static final String GET_LAST_BOOK_ID = "SELECT MAX(ID_BOOK) FROM BOOK";
+    private static final String ADD_BOOK = "INSERT INTO BOOK (ID_BOOK, ID_LANGUAGE, TITLE, ISBN, QUANTITY) " +
+            "VALUES (?, ?, ?, ?, ?)";
+    private static final String INSERT_INTO_BOOK2AUTHOR = "INSERT INTO BOOK2AUTHOR (ID_BOOK, ID_AUTHOR) VALUES (?, ?)";
+    private static final String EDIT_BOOK = "UPDATE book SET TITLE = ?, ISBN = ?, QUANTITY = ? WHERE (ID_BOOK = ?) " +
             "and (ID_LANGUAGE = ?)";
     public static final String REMOVE_BOOK_BY_ID = "DELETE FROM book WHERE (ID_BOOK = ?)";
     public static final String UPDATE_QUANTITY = "UPDATE BOOK SET QUANTITY = QUANTITY-1 WHERE ID_BOOK = ?";
-    public static final String GET_LAST_BOOK_ID = "SELECT MAX(ID_BOOK) FROM BOOK";
-    public static final String INSERT_INTO_BOOK2AUTHOR = "INSERT INTO BOOK2AUTHOR (ID_BOOK, ID_AUTHOR) VALUES (?, ?)";
+
     private ConnectionPool connectionPool;
     private Connection connection = null;
 
@@ -42,25 +43,6 @@ public class BookDAO {
             connectionPool.returnConnection(connection);
         }
         return lastId;
-    }
-
-    public List<Book> getBook(int language) throws SQLException {
-        List<Book> books = new ArrayList<>();
-        Book book;
-        connectionPool = ConnectionPool.getInstance();
-        connection = connectionPool.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FROM_BOOK_TABLE)) {
-            preparedStatement.setInt(1, language);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                book = BookFactory.createBook(resultSet, language);
-                books.add(book);
-            }
-        }
-        finally {
-            connectionPool.returnConnection(connection);
-        }
-        return books;
     }
 
     public Book getBookByID(int idBook, int language) throws SQLException {
@@ -92,23 +74,6 @@ public class BookDAO {
         finally {
             connectionPool.returnConnection(connection);
         }
-    }
-
-    public void addBook(int idBook, int idLanguage, String ISBN, int quantity, String title) throws SQLException {
-        connectionPool = ConnectionPool.getInstance();
-        connection = connectionPool.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_BOOK)) {
-            preparedStatement.setInt(1, idBook);
-            preparedStatement.setInt(2, idLanguage);
-            preparedStatement.setString(3, title);
-            preparedStatement.setString(4, ISBN);
-            preparedStatement.setInt(5, quantity);
-            preparedStatement.executeUpdate();
-        }
-        finally {
-            connectionPool.returnConnection(connection);
-        }
-
     }
 
     public boolean checkBook(String ISBN) throws SQLException {
@@ -158,18 +123,17 @@ public class BookDAO {
 
     public List<Book> searchBook(List<String> argumentsLike, String requestToDB, int language) throws SQLException {
         List<Book> books = new ArrayList<>();
-        Book book;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(requestToDB)) {
             preparedStatement.setInt(1, language);
-            for(int i=0; i<argumentsLike.size(); i++) {
-                int index = i+2;
+            for (int i = 0; i < argumentsLike.size(); i++) {
+                int index = i + 2;
                 preparedStatement.setString(index, argumentsLike.get(i));
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                book = BookFactory.createBook(resultSet, language);
+                Book book = BookFactory.createBook(resultSet, language);
                 books.add(book);
             }
         }
@@ -177,5 +141,47 @@ public class BookDAO {
             connectionPool.returnConnection(connection);
         }
         return books;
+    }
+
+    @Override
+    public List getAll(int id) throws SQLException {
+        List<Book> books = new ArrayList<>();
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_FROM_BOOK_TABLE)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Book book = BookFactory.createBook(resultSet, id);
+                books.add(book);
+            }
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+        return books;
+    }
+
+    @Override
+    public void create(Object object) throws SQLException {
+        Book book = (Book) object;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_BOOK)) {
+            preparedStatement.setInt(1, book.getId());
+            preparedStatement.setInt(2, book.getLanguageID());
+            preparedStatement.setString(3, book.getTitle());
+            preparedStatement.setString(4, book.getISBN());
+            preparedStatement.setInt(5, book.getQuantity());
+            preparedStatement.executeUpdate();
+        }
+        finally {
+            connectionPool.returnConnection(connection);
+        }
+    }
+
+    @Override
+    public void delete(int id){
+        throw new UnsupportedOperationException();
     }
 }
