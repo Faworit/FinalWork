@@ -208,7 +208,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void create(Object object){
+    public void create(Order object) throws SQLException {
         throw new UnsupportedOperationException();
     }
 

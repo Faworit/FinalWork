@@ -113,13 +113,13 @@ public class AuthorDAOImpl implements AuthorDAO {
 
 
     @Override
-    public List getAll(int id) throws SQLException {
+    public List getAll(int id) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void create(Object object) throws SQLException {
-        Author author = (Author) object;
+    public void create(Author object) throws SQLException {
+        Author author =  object;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_AUTHOR)) {
@@ -130,7 +130,6 @@ public class AuthorDAOImpl implements AuthorDAO {
         finally {
             connectionPool.returnConnection(connection);
         }
-
     }
 
     @Override

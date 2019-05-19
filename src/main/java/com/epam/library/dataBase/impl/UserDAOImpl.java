@@ -134,7 +134,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void create(Object object) throws SQLException {
+    public void create(User object) throws SQLException {
         User user = (User) object;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();

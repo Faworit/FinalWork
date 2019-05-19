@@ -104,8 +104,8 @@ public class GenreDAOImpl implements GenreDAO {
     }
 
     @Override
-    public void create(Object object) throws SQLException {
-        Genre genre = (Genre) object;
+    public void create(Genre object) throws SQLException {
+        Genre genre = object;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_GENRE)) {

@@ -2,6 +2,7 @@ package com.epam.library.dataBase.impl;
 
 import com.epam.library.dataBase.CommonDAO;
 import com.epam.library.dataBase.ConnectionPool;
+import com.epam.library.entity.Entity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,7 +39,7 @@ public class BookGenreDAOImpl implements CommonDAO {
     }
 
     @Override
-    public void create(Object object){
+    public void create(Entity object) throws SQLException {
         throw new UnsupportedOperationException();
     }
 

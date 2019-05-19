@@ -171,8 +171,8 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void create(Object object) throws SQLException {
-        Book book = (Book) object;
+    public void create(Book object) throws SQLException {
+        Book book = object;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ADD_BOOK)) {

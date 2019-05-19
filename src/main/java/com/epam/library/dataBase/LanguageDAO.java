@@ -4,7 +4,7 @@ import com.epam.library.entity.Language;
 
 import java.sql.SQLException;
 
-public interface LanguageDAO <T extends Language> extends CommonDAO {
+public interface LanguageDAO extends CommonDAO<Language> {
 
     int getIdLanguage(String language) throws SQLException;
 }

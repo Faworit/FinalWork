@@ -2,6 +2,7 @@ package com.epam.library.dataBase.impl;
 
 import com.epam.library.dataBase.ConnectionPool;
 import com.epam.library.dataBase.LanguageDAO;
+import com.epam.library.entity.Language;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +36,7 @@ public class LanguageDAOImpl implements LanguageDAO {
     }
 
     @Override
-    public void create(Object object){
+    public void create(Language object) throws SQLException {
         throw new UnsupportedOperationException();
     }
 
